@@ -1,0 +1,50 @@
+'use strict'
+// This is the webpack config used for unit tests.
+
+const utils = require('./utils')
+const webpack = require('webpack')
+const path = require('path')
+const baseWebpackConfig = require('./webpack.base.conf')
+
+function resolve (dir) {
+  return path.join(__dirname, '..', dir)
+}
+
+const test_conf  = {
+  // use inline sourcemap for karma-sourcemap-loader
+  module: {
+    rules: utils.styleLoaders().concat([
+      {
+        test: /\.vue$/,
+        loader: 'vue-loader',
+        options: require('./vue-loader.conf')
+      },
+      {
+        test: /\.js$/,
+        loader: 'babel-loader',
+        include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')]
+      }
+    ])
+  },
+  devtool: '#inline-source-map',
+  resolveLoader: {
+    alias: {
+      // necessary to to make lang="scss" work in test when using vue-loader's ?inject option
+      // see discussion at https://github.com/vuejs/vue-loader/issues/724
+      'scss-loader': 'sass-loader'
+    }
+  },
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env': require('../config/test.env')
+    })
+  ]
+}
+
+// const webpackConfig = merge(baseWebpackConfig, test_conf)
+const webpackConfig = test_conf
+
+// no need for app entry during tests
+delete webpackConfig.entry
+
+module.exports = webpackConfig
