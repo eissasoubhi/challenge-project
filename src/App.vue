@@ -1,23 +1,23 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <router-view/>
+    <hf-header></hf-header>
+    <router-view></router-view>
+    <hf-footer></hf-footer>
   </div>
 </template>
 
 <script>
+import HfHeader from '@/components/Header'
+import HfFooter from '@/components/Footer'
+
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    HfHeader,
+    HfFooter
+  }
 }
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 </style>
