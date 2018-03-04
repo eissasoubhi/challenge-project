@@ -18,7 +18,7 @@
             <li>
               <div class="user-menu dropdown ">
                   <button class="btn btn-default dropdown-toggle" type="button" id="header-right-menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                  {{currentUser.name}}
+                  {{currentUser.email}}
                   <span class="caret"></span>
                   </button>
                   <ul class="dropdown-menu" aria-labelledby="header-right-menu">

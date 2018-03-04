@@ -19,6 +19,7 @@
           <form v-on:submit="onSubmit(email, password)">
             <fieldset class="form-group">
               <input
+                id="email"
                 class="form-control form-control-lg"
                 type="text"
                 v-model="email"
@@ -26,12 +27,13 @@
             </fieldset>
             <fieldset class="form-group">
               <input
+                id="password"
                 class="form-control form-control-lg"
                 type="password"
                 v-model="password"
                 placeholder="Password">
             </fieldset>
-            <button class="btn btn-lg btn-primary pull-xs-right">
+            <button id="submit" class="btn btn-lg btn-primary pull-xs-right">
               Sign in
             </button>
           </form>
@@ -41,6 +43,8 @@
   </div>
 </template>
 <script>
+
+import { mapState } from 'vuex'
 
 export default {
   name: 'HfLogin',
@@ -52,11 +56,15 @@ export default {
   },
   methods: {
     onSubmit (email, password) {
-
+      this.$store
+        .dispatch('login', { email, password })
+        .then(() => this.$router.push({ name: 'home' }))
     }
   },
   computed: {
-    errors: () => {}
+    ...mapState({
+      errors: state => state.auth.errors
+    })
   }
 }
 </script>

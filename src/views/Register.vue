@@ -14,15 +14,12 @@
           </ul>
           <form v-on:submit="onSubmit">
             <fieldset class="form-group">
-              <input class="form-control form-control-lg" type="text" v-model="username" placeholder="Username">
+              <input class="form-control form-control-lg" id="email" type="text" v-model="email" placeholder="Email">
             </fieldset>
             <fieldset class="form-group">
-              <input class="form-control form-control-lg" type="text" v-model="email" placeholder="Email">
+              <input class="form-control form-control-lg" id="password" type="password" v-model="password" placeholder="Password">
             </fieldset>
-            <fieldset class="form-group">
-              <input class="form-control form-control-lg" type="password" v-model="password" placeholder="Password">
-            </fieldset>
-            <button class="btn btn-lg btn-primary pull-xs-right">
+            <button class="btn btn-lg btn-primary pull-xs-right" id="submit">
               Sign up
             </button>
           </form>
@@ -33,21 +30,30 @@
 </template>
 <script>
 
+import { mapState } from 'vuex'
+
 export default {
   name: 'HfRegister',
   data () {
     return {
-      username: '',
       email: '',
       password: ''
     }
   },
   computed: {
-    errors: () => {}
+    ...mapState({
+      errors: state => state.auth.errors
+    })
   },
   methods: {
     onSubmit () {
-
+      this.$store.dispatch('register', {
+        email: this.email,
+        password: this.password
+      })
+        .then(() => this.$router.push({
+          name: 'home'
+        }))
     }
   }
 }
