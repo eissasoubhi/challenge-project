@@ -60,8 +60,87 @@ let auth = {
   }
 }
 
+let shopList = {
+  state: {
+    shops: [],
+    isLoading: true,
+    shopsCount: 0
+  },
+  getters: {
+    shopsCount (state) {
+      return state.shopsCount
+    },
+    shops (state) {
+      return state.shops
+    },
+    isLoading (state) {
+      return state.isLoading
+    }
+  },
+
+  actions: {
+    fetch_shops ({ commit }, params) {
+      commit('fetch_start')
+      return Vue.axios.get('shops', {params: params.filters})
+        .then(({ data }) => {
+          commit('fetch_end', data)
+        })
+        .catch((error) => {
+          throw new Error(error)
+        })
+    },
+
+    favorite_add (context, payload) {
+      return Vue.axios
+        .post('shops/' + payload + '/favorite')
+        .then(({ data }) => {
+          // Update list as well. This allows us to like a shop in the Home view.
+          context.commit(
+            'update_shop_in_list',
+            data.shop,
+            { root: true }
+          )
+        })
+    },
+    favorite_remove (context, payload) {
+      return Vue.axios
+        .delete('shops/' + payload + '/favorite')
+        .then(({ data }) => {
+          // Update list as well. This allows us to favorite a shop in the Home view.
+          context.commit(
+            'update_shop_in_list',
+            data.shop,
+            { root: true }
+          )
+        })
+    }
+  },
+
+  mutations: {
+    fetch_start (state) {
+      state.isLoading = true
+    },
+    fetch_end (state, { shops, shopsCount }) {
+      state.shops = shops
+      state.shopsCount = shopsCount
+      state.isLoading = false
+    },
+    update_shop_in_list (state, data) {
+      state.shops = state.shops.map((shop) => {
+        if (shop.id !== data.id) { return shop }
+        // We could just return data, but it seems dangerous to
+        // mix the results of different api calls, so we
+        // protect ourselves by copying the information.
+        shop.favorited = data.favorited
+        return shop
+      })
+    }
+  }
+}
+
 export default new Vuex.Store({
   modules: {
-    auth
+    auth,
+    shopList
   }
 })
