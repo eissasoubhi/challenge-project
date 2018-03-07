@@ -10,6 +10,7 @@
 </template>
 
 <script>
+import { FAVORITE_ADD, FAVORITE_REMOVE } from '@/store/actions.type'
 
 export default {
   name: 'HfShopActions',
@@ -18,10 +19,10 @@ export default {
   },
   methods: {
     like (id) {
-      this.$store.dispatch('favorite_add', id)
+      this.$store.dispatch(FAVORITE_ADD, id)
     },
     dislike (id) {
-      this.$store.dispatch('favorite_remove', id)
+      this.$store.dispatch(FAVORITE_REMOVE, id)
     }
   }
 }

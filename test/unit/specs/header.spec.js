@@ -1,65 +1,44 @@
 import { mount } from '@vue/test-utils'
 import Header from '@/components/Header'
 import router from '@/router'
+import Helpers from './test.helpers.js'
 
 describe('The Header', () => {
-  var wrapper
+  var wrapper, helpers
 
   beforeEach(() => {
     wrapper = mount(Header, {
       router
     })
+
+    helpers = new Helpers(wrapper)
   })
 
   it('shows Sign in and Sign up buttons for an unauthenticated user', () => {
-    logUserOut()
+    helpers.logUserOut()
 
-    expectToSee('Sign up')
-    expectToSee('Sign in')
+    helpers.expectToSee('Sign up')
+    helpers.expectToSee('Sign in')
   })
 
   it('hides Sign in and Sign up buttons for an authenticated user', () => {
-    logUserIn()
+    helpers.logUserIn()
 
-    dontExpectToSee('Sign up')
-    dontExpectToSee('Sign in')
+    helpers.dontExpectToSee('Sign up')
+    helpers.dontExpectToSee('Sign in')
   })
 
   it('hides the user name and logout button for an unauthenticated user', () => {
-    logUserOut()
+    helpers.logUserOut()
 
     expect(wrapper.contains('#header-right-menu')).toBe(false)
-    dontExpectToSee('Logout')
+    helpers.dontExpectToSee('Logout')
   })
 
   it('shows the user name and logout button for an authenticated user', () => {
-    logUserIn()
+    helpers.logUserIn()
 
-    expectToSee('johnDoe')
-    expectToSee('Logout')
+    helpers.expectToSee('johnDoe')
+    helpers.expectToSee('Logout')
   })
-
-  let logUserIn = () => {
-    wrapper.setProps({
-      isAuthenticated: true,
-      currentUser: {
-        email: 'johnDoe@foo.bar'
-      }
-    })
-  }
-
-  let logUserOut = () => {
-    wrapper.setProps({
-      isAuthenticated: false,
-      currentUser: {}
-    })
-  }
-
-  let expectToSee = text => {
-    expect(wrapper.text()).toContain(text)
-  }
-
-  let dontExpectToSee = text => {
-    expect(wrapper.text()).not.toContain(text)
-  }
 })

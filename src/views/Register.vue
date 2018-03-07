@@ -31,6 +31,7 @@
 <script>
 
 import { mapState } from 'vuex'
+import { REGISTER } from '@/store/actions.type'
 
 export default {
   name: 'HfRegister',
@@ -47,7 +48,7 @@ export default {
   },
   methods: {
     onSubmit () {
-      this.$store.dispatch('register', {
+      this.$store.dispatch(REGISTER, {
         email: this.email,
         password: this.password
       })

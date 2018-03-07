@@ -29,6 +29,7 @@
 import { mapGetters } from 'vuex'
 import HfShopPreview from '@/components/ShopPreview'
 import VPagination from '@/components/VPagination'
+import { FETCH_SHOPS } from '@/store/actions.type'
 
 export default {
   name: 'hf-shop-list',
@@ -80,19 +81,19 @@ export default {
   watch: {
     currentPage (newValue) {
       this.listConfig.filters.offset = (newValue - 1) * this.itemsPerPage
-      this.fetchshops()
+      this.fetchShops()
     },
     favorited () {
       this.resetPagination()
-      this.fetchshops()
+      this.fetchShops()
     }
   },
   mounted () {
-    this.fetchshops()
+    this.fetchShops()
   },
   methods: {
-    fetchshops () {
-      this.$store.dispatch('fetch_shops', this.listConfig)
+    fetchShops () {
+      this.$store.dispatch(FETCH_SHOPS, this.listConfig)
     },
     resetPagination () {
       this.listConfig.offset = 0

@@ -5,13 +5,16 @@ import moxios from 'moxios'
 import vue from 'vue'
 import router from '@/router'
 import JwtService from '@/common/jwt.service'
-import { API_URL } from '@/common/config'
+import Helpers from './test.helpers.js'
 import ErrorFilter from '@/common/error.filter'
+import ApiService from '@/common/api.service'
+
+ApiService.init()
 
 vue.filter('error', ErrorFilter)
 
 describe('The register page', () => {
-  var wrapper
+  var wrapper, helpers
 
   beforeEach(() => {
     moxios.install()
@@ -20,6 +23,8 @@ describe('The register page', () => {
       store,
       router
     })
+
+    helpers = new Helpers(wrapper)
   })
 
   afterEach(() => {
@@ -27,14 +32,14 @@ describe('The register page', () => {
   })
 
   it('registers a user and logs them in to the application', (done) => {
-    setFakeServer('users', {
+    helpers.setFakeServer('users', {
       user: {
         email: 'foo@bar.com',
         token: 'foobartoken'
       }
     })
 
-    submitFormWith({
+    helpers.submitFormWith({
       'input#email': 'foo@bar.com',
       'input#password': 'secret'
     })
@@ -47,14 +52,14 @@ describe('The register page', () => {
   })
 
   it('registers a user and saves their token', (done) => {
-    setFakeServer('users', {
+    helpers.setFakeServer('users', {
       user: {
         email: 'foo@bar.com',
         token: 'foobartoken'
       }
     })
 
-    submitFormWith({
+    helpers.submitFormWith({
       'input#email': 'foo@bar.com',
       'input#password': 'secret'
     })
@@ -66,46 +71,20 @@ describe('The register page', () => {
   })
 
   it('shows the message if error have occurred', (done) => {
-    setFakeServer('users', {
+    helpers.setFakeServer('users', {
       errors: {
         'invalid password': ['password too short']
       }
     }, 401)
 
-    submitFormWith({
+    helpers.submitFormWith({
       'input#email': 'foo@bar.com',
       'input#password': 'secret'
     })
 
     moxios.wait(() => {
-      expectToSee('invalid password password too short')
+      helpers.expectToSee('invalid password password too short')
       done()
     })
   })
-
-  let type = (text, selector) => {
-    let node = wrapper.find(selector)
-
-    node.element.value = text
-    node.trigger('input')
-  }
-
-  let setFakeServer = (uri, response, status = 200) => {
-    moxios.stubRequest(API_URL + '/' + uri, {
-      status: status,
-      response: response
-    })
-  }
-
-  let submitFormWith = (data) => {
-    for (let key in data) {
-      type(data[data], key)
-    }
-
-    wrapper.find('button#submit').trigger('submit')
-  }
-
-  let expectToSee = text => {
-    expect(wrapper.text()).toContain(text)
-  }
 })

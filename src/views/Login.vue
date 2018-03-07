@@ -45,6 +45,7 @@
 <script>
 
 import { mapState } from 'vuex'
+import { LOGIN } from '@/store/actions.type'
 
 export default {
   name: 'HfLogin',
@@ -57,7 +58,7 @@ export default {
   methods: {
     onSubmit (email, password) {
       this.$store
-        .dispatch('login', { email, password })
+        .dispatch(LOGIN, { email, password })
         .then(() => this.$router.push({ name: 'home' }))
     }
   },

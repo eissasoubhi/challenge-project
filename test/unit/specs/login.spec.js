@@ -5,13 +5,16 @@ import moxios from 'moxios'
 import vue from 'vue'
 import router from '@/router'
 import JwtService from '@/common/jwt.service'
-import { API_URL } from '@/common/config'
 import ErrorFilter from '@/common/error.filter'
+import Helpers from './test.helpers.js'
+import ApiService from '@/common/api.service'
+
+ApiService.init()
 
 vue.filter('error', ErrorFilter)
 
 describe('The login page', () => {
-  var wrapper
+  var wrapper, helpers
 
   beforeEach(() => {
     moxios.install()
@@ -20,6 +23,8 @@ describe('The login page', () => {
       store,
       router
     })
+
+    helpers = new Helpers(wrapper)
   })
 
   afterEach(() => {
@@ -27,14 +32,14 @@ describe('The login page', () => {
   })
 
   it('Logs a user in to the application', (done) => {
-    setFakeServer('users/login', {
+    helpers.setFakeServer('users/login', {
       user: {
         email: 'foo@bar.com',
         token: 'foobartoken'
       }
     })
 
-    submitFormWith({
+    helpers.submitFormWith({
       'input#email': 'foo@bar.com',
       'input#password': 'secret'
     })
@@ -47,14 +52,14 @@ describe('The login page', () => {
   })
 
   it('saves the user\'s token after logging in', (done) => {
-    setFakeServer('users/login', {
+    helpers.setFakeServer('users/login', {
       user: {
         email: 'foo@bar.com',
         token: 'foobartoken'
       }
     })
 
-    submitFormWith({
+    helpers.submitFormWith({
       'input#email': 'foo@bar.com',
       'input#password': 'secret'
     })
@@ -66,46 +71,20 @@ describe('The login page', () => {
   })
 
   it('shows the message if error have occurred', (done) => {
-    setFakeServer('users/login', {
+    helpers.setFakeServer('users/login', {
       errors: {
         'invalid credentials': ['no record have been found']
       }
     }, 401)
 
-    submitFormWith({
+    helpers.submitFormWith({
       'input#email': 'foo@bar.com',
       'input#password': 'secret'
     })
 
     moxios.wait(() => {
-      expectToSee('invalid credentials no record have been found')
+      helpers.expectToSee('invalid credentials no record have been found')
       done()
     })
   })
-
-  let type = (text, selector) => {
-    let node = wrapper.find(selector)
-
-    node.element.value = text
-    node.trigger('input')
-  }
-
-  let setFakeServer = (uri, response, status = 200) => {
-    moxios.stubRequest(API_URL + '/' + uri, {
-      status: status,
-      response: response
-    })
-  }
-
-  let submitFormWith = (data) => {
-    for (let key in data) {
-      type(data[data], key)
-    }
-
-    wrapper.find('button#submit').trigger('submit')
-  }
-
-  let expectToSee = text => {
-    expect(wrapper.text()).toContain(text)
-  }
 })
