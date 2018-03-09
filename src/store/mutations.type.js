@@ -1,5 +1,5 @@
-export const FETCH_END = 'setShops'
-export const FETCH_START = 'setLoading'
 export const SET_AUTH = 'setUser'
+export const FETCH_END = 'setShops'
 export const SET_ERROR = 'setError'
+export const FETCH_START = 'setLoading'
 export const UPDATE_SHOP_IN_LIST = 'updateShopInList'

@@ -69,11 +69,11 @@ describe('The nearby shop list', () => {
       shops: [
         {
           id: 1,
-          name: 'shop 1'
+          name: 'shop foo 1'
         },
         {
           id: 2,
-          name: 'shop 2'
+          name: 'shop bar 2'
         }
       ],
       shopsCount: 2
@@ -86,8 +86,8 @@ describe('The nearby shop list', () => {
 
     moxios.wait(() => {
       expect(wrapper.contains('.shops-list')).toBe(true)
-      expect(wrapper.html()).toContain('<h4> shop 1 </h4>')
-      expect(wrapper.html()).toContain('<h4> shop 2 </h4>')
+      helpers.expectToSee('shop foo 1')
+      helpers.expectToSee('shop bar 2')
       done()
     })
   })
@@ -124,7 +124,11 @@ describe('The nearby shop list', () => {
     })
   })
 
-  it('likes a shop', (done) => {
+  // the test passes but there is an error that shows up at the end of the test : UnhandledPromiseRejectionWarning
+  // the source of the error is the refreshShops (in ShopActions.vue) we do after liking/unliking/disliking a shop,
+  // so it sends another http request for the refresh that we dont handle in this test
+  // we can't prevent the app from sending that request in the test so we are ignoring it for now.
+  it('likes a shop in the nearby shops list', (done) => {
     helpers.setFakeServer('shops/1/favorite', {
       shop: {
         id: 1,
@@ -145,19 +149,72 @@ describe('The nearby shop list', () => {
     })
 
     moxios.wait(() => {
-      expect(wrapper.find('button.btn-like').attributes().disabled).toBeFalsy()
+      helpers.expectButtonToBeEnabled('button.btn-like')
 
       wrapper.find('button.btn-like').trigger('click')
 
       moxios.wait(() => {
-        expect(wrapper.find('button.btn-like').attributes().disabled).toBeTruthy()
+        helpers.expectButtonToBeDisabled('button.btn-like')
         done()
       })
     })
   })
 
-  it('dislikes a shop', (done) => {
+  // the test passes but there is an error that shows up at the end of the test : UnhandledPromiseRejectionWarning
+  // the source of the error is the refreshShops (in ShopActions.vue) we do after liking/unliking/disliking a shop,
+  // so it sends another http request for the refresh that we dont handle in this test
+  // we can't prevent the app from sending that request in the test so we are ignoring it for now
+  it('unlikes a shop from the preferred shops list', (done) => {
+    // the result from unliking a shop
     helpers.setFakeServer('shops/1/favorite', {
+      shop: {
+        id: 1,
+        name: 'shop 1',
+        favorited: null
+      }
+    })
+    // the results from the preferred-shops request
+    helpers.setFakeServer('shops?offset=0&limit=10&favorited=johnDoe', {
+      shops: [
+        {
+          id: 1,
+          name: 'shop 1',
+          favorited: 1
+        }
+      ],
+      shopsCount: 1
+    })
+
+    wrapper.setProps({
+      itemsPerPage: 10
+    })
+    wrapper.vm.fetchShops()
+
+    wrapper.setProps({
+      // the authenticated user name
+      favorited: 'johnDoe'
+    })
+
+    moxios.wait(() => {
+      helpers.expectButtonToBeEnabled('button.btn-unlike')
+
+      wrapper.find('button.btn-unlike').trigger('click')
+
+      moxios.wait(() => {
+        helpers.expectButtonToBeDisabled('button.btn-unlike')
+        done()
+      })
+    })
+  })
+
+  // the test passes but there is an error that shows up at the end of the test : UnhandledPromiseRejectionWarning
+  // the source of the error is the refreshShops (in ShopActions.vue) we do after liking/unliking/disliking a shop,
+  // so it sends another http request for the refresh that we dont handle in this test
+  // we can't prevent the app from sending that request in the test so we are ignoring it for now
+  it('dislikes a shop in the nearby shops list', (done) => {
+    // the result from unliking a shop
+    // clock = sinon.useFakeTimers()
+    helpers.setFakeServer('shops/1/dislike', {
       shop: {
         id: 1,
         name: 'shop 1',

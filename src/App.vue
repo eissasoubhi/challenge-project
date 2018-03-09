@@ -22,4 +22,11 @@ export default {
 </script>
 
 <style>
+.thumbnail,
+button,
+a
+{
+  border-radius: 0!important;
+}
+
 </style>

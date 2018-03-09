@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import home from './home.module'
+import home from './shopsList.module'
 import auth from './auth.module'
 import shop from './shop.module'
 

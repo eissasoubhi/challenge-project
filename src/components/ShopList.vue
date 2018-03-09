@@ -1,6 +1,9 @@
 <template>
   <div>
-    <div v-if="isLoading" class="shop-preview">
+    <div v-if="isLoading" class="shop-preview text-center">
+      <div>
+        <img src="@/assets/loading.gif" alt="">
+      </div>
       Loading shops...
     </div>
     <div v-else>
@@ -8,11 +11,13 @@
         No shops are here... yet.
       </div>
       <div v-else class="shops-list">
-        <h1 class="text-center">Shops Nearby</h1>
+        <h1 class="text-center"><slot></slot></h1>
         <div class="row text-center text-lg-left">
           <hf-shop-preview
             v-for="(shop, index) in shops"
             :shop="shop"
+            :type="type"
+            :requestConfig="listConfig"
             :key="index">
           </hf-shop-preview>
         </div>
@@ -54,6 +59,13 @@ export default {
     }
   },
   computed: {
+    type () {
+      if (this.favorited) {
+        return 'favorited'
+      }
+
+      return 'all'
+    },
     listConfig () {
       const filters = {
         offset: (this.currentPage - 1) * this.itemsPerPage,
@@ -102,3 +114,8 @@ export default {
   }
 }
 </script>
+<style scoped>
+  h1 {
+    margin-bottom: 50px;
+  }
+</style>

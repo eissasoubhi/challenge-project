@@ -51,4 +51,12 @@ export default class TestHelpers {
 
     this.wrapper.find('button#submit').trigger('submit')
   }
+
+  expectButtonToBeDisabled (selector) {
+    expect(this.wrapper.find(selector).attributes().disabled).toBeTruthy()
+  }
+
+  expectButtonToBeEnabled (selector) {
+    expect(this.wrapper.find(selector).attributes().disabled).toBeFalsy()
+  }
 }

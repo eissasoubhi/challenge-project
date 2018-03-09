@@ -79,5 +79,8 @@ export const FavoriteService = {
   },
   remove (id) {
     return ApiService.delete(`shops/${id}/favorite`)
+  },
+  dislike (id) {
+    return ApiService.post(`shops/${id}/dislike`)
   }
 }
