@@ -1,6 +1,6 @@
 <template>
-  <nav>
-    <ul class="pagination">
+  <nav class="text-center">
+    <ul class="pagination text-center">
       <li
         v-for="page in pages"
         :key="page"

@@ -1,4 +1,4 @@
-const ID_TOKEN_KEY = 'id_token'
+const ID_TOKEN_KEY = 'hf_shops_app_id_token'
 
 var localStorage = (() => {
   var store = {}

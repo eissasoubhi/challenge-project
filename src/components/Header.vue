@@ -23,10 +23,7 @@
                   </button>
                   <ul class="dropdown-menu" aria-labelledby="header-right-menu">
                       <li>
-                          <router-link class=""
-                          :to="'logout'">
-                              Logout
-                          </router-link>
+                          <a id="logout" href="#" @click.prevent="logout"> Logout </a>
                       </li>
                   </ul>
               </div>
@@ -56,15 +53,24 @@
   </nav>
 </template>
 <script>
+import { LOGOUT } from '@/store/actions.type'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'HfHeader',
-  props: {
-    isAuthenticated: {
-      default: false
-    },
-    currentUser: {
-      default: () => {}
+  computed: {
+    ...mapGetters([
+      'currentUser',
+      'isAuthenticated'
+    ])
+  },
+  methods: {
+    logout () {
+      this.$store
+        .dispatch(LOGOUT)
+        .then(() => {
+          this.$router.push({ name: 'home' })
+        })
     }
   }
 }

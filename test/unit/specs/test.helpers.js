@@ -1,5 +1,6 @@
 import moxios from 'moxios'
 import { API_URL } from '@/common/config'
+import { PURGE_AUTH, SET_AUTH } from '@/store/mutations.type'
 
 export default class TestHelpers {
   constructor (wrapper) {
@@ -22,19 +23,14 @@ export default class TestHelpers {
   }
 
   logUserIn () {
-    this.wrapper.setProps({
-      isAuthenticated: true,
-      currentUser: {
-        email: 'johnDoe@foo.bar'
-      }
+    this.wrapper.vm.$store.commit(SET_AUTH, {
+      email: 'johnDoe@foo.bar',
+      'token': 'foobarToken'
     })
   }
 
   logUserOut () {
-    this.wrapper.setProps({
-      isAuthenticated: false,
-      currentUser: {}
-    })
+    this.wrapper.vm.$store.commit(PURGE_AUTH)
   }
 
   type (text, selector) {
@@ -58,5 +54,9 @@ export default class TestHelpers {
 
   expectButtonToBeEnabled (selector) {
     expect(this.wrapper.find(selector).attributes().disabled).toBeFalsy()
+  }
+
+  click (selector) {
+    this.wrapper.find(selector).trigger('click')
   }
 }

@@ -1,11 +1,11 @@
 <template>
   <div class="row">
     <div class="col-md-12">
-      <div class="home-toggle">
+      <div v-if="isAuthenticated" class="home-toggle">
         <ul class="nav nav-pills navbar-right">
           <li class="nav-item">
             <router-link
-              :to="{name: 'home'}"
+              :to="{name: 'nearbyShops'}"
               class="nav-link"
               exact
               active-class="active">
@@ -29,9 +29,15 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 
 export default {
-  name: 'HfHome'
+  name: 'HfHome',
+  computed: {
+    ...mapGetters([
+      'isAuthenticated'
+    ])
+  }
 }
 </script>
 

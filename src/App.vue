@@ -28,5 +28,7 @@ a
 {
   border-radius: 0!important;
 }
-
+body {
+  padding-bottom: 40px;
+}
 </style>
