@@ -1,5 +1,10 @@
+// We use the localStorage to manage the frontend authentication
+
 const ID_TOKEN_KEY = 'hf_shops_app_id_token'
 
+/**
+ * An alternative localStorage function for the old browsers and the testing environment
+ */
 var localStorage = (() => {
   var store = {}
 

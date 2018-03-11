@@ -19,9 +19,29 @@ export default {
     HfShopActions
   },
   props: {
-    shop: { type: Object, required: true },
-    requestConfig: { type: Object, required: true },
-    type: { type: String, required: true }
+    /**
+     * the shop the actions will be applied to
+     */
+    shop: {
+      type: Object,
+      required: true
+    },
+
+    /**
+     * the refreshShops request params
+     */
+    requestConfig: {
+      type: Object,
+      required: true
+    },
+
+    /**
+     * the type of the shop item, favorited for a preferred shop or all for a nearby shop
+     */
+    type: {
+      type: String,
+      required: true
+    }
   }
 }
 </script>

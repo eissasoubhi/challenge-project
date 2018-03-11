@@ -2,9 +2,10 @@ import store from '@/store'
 import moxios from 'moxios'
 import router from '@/router'
 import Helpers from './test.helpers.js'
-import { mount } from '@vue/test-utils'
 import ShopList from '@/components/ShopList'
 import ApiService from '@/common/api.service'
+
+import { mount } from '@vue/test-utils'
 import { FETCH_END } from '@/store/mutations.type'
 
 ApiService.init()

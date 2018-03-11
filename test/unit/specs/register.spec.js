@@ -1,13 +1,14 @@
-import { mount } from '@vue/test-utils'
-import Register from '@/views/Register'
+import vue from 'vue'
 import store from '@/store'
 import moxios from 'moxios'
-import vue from 'vue'
 import router from '@/router'
-import JwtService from '@/common/jwt.service'
+import Register from '@/views/Register'
 import Helpers from './test.helpers.js'
-import ErrorFilter from '@/common/error.filter'
+import JwtService from '@/common/jwt.service'
 import ApiService from '@/common/api.service'
+import ErrorFilter from '@/common/error.filter'
+
+import { mount } from '@vue/test-utils'
 
 ApiService.init()
 

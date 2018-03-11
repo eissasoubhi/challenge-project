@@ -61,6 +61,7 @@ router.beforeEach(
     return Promise
       .all([store.dispatch(CHECK_AUTH)])
       .then(() => {
+        // redirect the user if he's not autorised
         if (to.matched.some(record => record.meta.requiresAuth)) {
           if (store.state.auth.isAuthenticated) {
             next()

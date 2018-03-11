@@ -43,10 +43,17 @@ export default {
     VPagination
   },
   props: {
+    /**
+     * the username of the current user to get the preferred shops or null for nearby shops only
+     */
     favorited: {
       type: String,
       required: false
     },
+
+    /**
+     * pagination items per page
+     */
     itemsPerPage: {
       type: Number,
       required: false,
@@ -55,10 +62,16 @@ export default {
   },
   data () {
     return {
+      /**
+       * pagination currentPage
+       */
       currentPage: 1
     }
   },
   computed: {
+    /**
+     * the type of the list, favorited for the preferred shops or all for a nearby shops
+     */
     type () {
       if (this.favorited) {
         return 'favorited'
@@ -66,6 +79,10 @@ export default {
 
       return 'all'
     },
+
+    /**
+     * construct the request query
+     */
     listConfig () {
       const filters = {
         offset: (this.currentPage - 1) * this.itemsPerPage,
@@ -78,12 +95,17 @@ export default {
         filters
       }
     },
+
+    /**
+     * get the numbers of the pages as a list
+     */
     pages () {
       if (this.isLoading || this.shopsCount <= this.itemsPerPage) {
         return []
       }
       return [...Array(Math.ceil(this.shopsCount / this.itemsPerPage)).keys()].map(e => e + 1)
     },
+
     ...mapGetters([
       'shopsCount',
       'isLoading',
@@ -91,22 +113,35 @@ export default {
     ])
   },
   watch: {
+    /**
+     * refresh the shops list if the page changes
+     */
     currentPage (newValue) {
       this.listConfig.filters.offset = (newValue - 1) * this.itemsPerPage
       this.fetchShops()
     },
+
+    /**
+     * refresh the shops list if the type of list changes
+     */
     favorited () {
       this.resetPagination()
       this.fetchShops()
     }
   },
+
   mounted () {
     this.fetchShops()
   },
+
   methods: {
+    /**
+     * get the shops list
+     */
     fetchShops () {
       this.$store.dispatch(FETCH_SHOPS, this.listConfig)
     },
+
     resetPagination () {
       this.listConfig.offset = 0
       this.currentPage = 1

@@ -1,17 +1,19 @@
 import { FavoriteService } from '@/common/api.service'
-import { FAVORITE_ADD, FAVORITE_REMOVE, SHOP_DISLIKE } from './actions.type'
 import { UPDATE_SHOP_IN_LIST } from './mutations.type'
+import { FAVORITE_ADD, FAVORITE_REMOVE, SHOP_DISLIKE } from './actions.type'
 
 export const state = {
 
 }
 
 export const actions = {
+  /**
+   * Like a shop and update the list
+   */
   [FAVORITE_ADD] (context, payload) {
     return FavoriteService
       .add(payload)
       .then(({ data }) => {
-        // Update list as well.
         context.commit(
           UPDATE_SHOP_IN_LIST,
           data.shop,
@@ -19,11 +21,14 @@ export const actions = {
         )
       })
   },
+
+  /**
+   * Unike a shop and update the list
+   */
   [FAVORITE_REMOVE] (context, payload) {
     return FavoriteService
       .remove(payload)
       .then(({ data }) => {
-        // Update list as well.
         context.commit(
           UPDATE_SHOP_IN_LIST,
           data.shop,
@@ -31,11 +36,14 @@ export const actions = {
         )
       })
   },
+
+  /**
+   * Dislike a shop and update the list
+   */
   [SHOP_DISLIKE] (context, payload) {
     return FavoriteService
       .dislike(payload)
       .then(({ data }) => {
-        // Update list as well.
         context.commit(
           UPDATE_SHOP_IN_LIST,
           data.shop,

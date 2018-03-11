@@ -1,8 +1,9 @@
 import store from '@/store'
 import router from '@/router'
-import { mount } from '@vue/test-utils'
-import Header from '@/components/Header'
 import Helpers from './test.helpers.js'
+import Header from '@/components/Header'
+
+import { mount } from '@vue/test-utils'
 
 describe('The Header', () => {
   var wrapper, helpers

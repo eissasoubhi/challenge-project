@@ -5,8 +5,8 @@
 </template>
 
 <script>
-import HfShopList from '@/components/ShopList'
 import { mapGetters } from 'vuex'
+import HfShopList from '@/components/ShopList'
 
 export default {
   name: 'HfPreferredShops',
@@ -17,8 +17,11 @@ export default {
     ...mapGetters([
       'currentUser'
     ]),
+
+  /**
+   * the current user username to filter the shops by the preferred
+   */
     favorited () {
-      // return 'johnDon'
       return this.currentUser.name
     }
   }

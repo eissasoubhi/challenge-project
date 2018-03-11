@@ -1,5 +1,6 @@
 import ApiService from '@/common/api.service'
 import JwtService from '@/common/jwt.service'
+
 import { LOGIN, LOGOUT, REGISTER, CHECK_AUTH } from './actions.type'
 import { SET_AUTH, PURGE_AUTH, SET_ERROR } from './mutations.type'
 
@@ -19,6 +20,9 @@ const getters = {
 }
 
 const actions = {
+  /**
+   * Log the user in and save their local data
+   */
   [LOGIN] (context, credentials) {
     return new Promise((resolve) => {
       ApiService
@@ -35,6 +39,10 @@ const actions = {
   [LOGOUT] (context) {
     context.commit(PURGE_AUTH)
   },
+
+  /**
+   * register the user and save their local data
+   */
   [REGISTER] (context, credentials) {
     return new Promise((resolve, reject) => {
       ApiService
@@ -48,6 +56,9 @@ const actions = {
         })
     })
   },
+  /**
+   * Check the user's authentication and update their local data
+   */
   [CHECK_AUTH] (context) {
     if (JwtService.getToken()) {
       ApiService.setHeader()

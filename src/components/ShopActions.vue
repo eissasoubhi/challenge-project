@@ -20,11 +20,34 @@ import { SHOP_DISLIKE, FETCH_SHOPS, FAVORITE_ADD, FAVORITE_REMOVE } from '@/stor
 export default {
   name: 'HfShopActions',
   props: {
-    shop: { type: Object, required: true },
-    requestConfig: { type: Object, required: true },
-    type: { type: String, required: true }
+    /**
+     * the shop the actions will be applied to
+     */
+    shop: {
+      type: Object,
+      required: true
+    },
+
+    /**
+     * the refreshShops request params
+     */
+    requestConfig: {
+      type: Object,
+      required: true
+    },
+
+    /**
+     * the type of the shop item, favorited for a preferred shop or all for a nearby shop
+     */
+    type: {
+      type: String,
+      required: true
+    }
   },
   methods: {
+    /**
+     * like a shop
+     */
     like (id) {
       this.$store
         .dispatch(FAVORITE_ADD, id)
@@ -32,6 +55,10 @@ export default {
           this.refreshShops()
         })
     },
+
+    /**
+     * unlike a shop
+     */
     unlike (id) {
       this.$store
         .dispatch(FAVORITE_REMOVE, id)
@@ -39,6 +66,10 @@ export default {
           this.refreshShops()
         })
     },
+
+    /**
+     * dislike a shop
+     */
     dislike (id) {
       this.$store
         .dispatch(SHOP_DISLIKE, id)
@@ -46,6 +77,10 @@ export default {
           this.refreshShops()
         })
     },
+
+    /**
+     * refresh the list of shops
+     */
     refreshShops (delay = 600) {
       setTimeout(() => {
         this.$store.dispatch(FETCH_SHOPS, this.requestConfig)

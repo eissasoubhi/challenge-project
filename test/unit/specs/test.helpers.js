@@ -33,6 +33,9 @@ export default class TestHelpers {
     this.wrapper.vm.$store.commit(PURGE_AUTH)
   }
 
+  /**
+   * type a text in an element of the current wrapper
+   */
   type (text, selector) {
     let node = this.wrapper.find(selector)
 
@@ -40,6 +43,9 @@ export default class TestHelpers {
     node.trigger('input')
   }
 
+  /**
+   * submit a form with some data
+   */
   submitFormWith (data) {
     for (let key in data) {
       this.type(data[data], key)

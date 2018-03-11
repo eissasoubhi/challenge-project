@@ -4,10 +4,11 @@ import store from '@/store'
 import router from '@/router'
 import Login from '@/views/Login'
 import Helpers from './test.helpers.js'
-import { mount } from '@vue/test-utils'
 import JwtService from '@/common/jwt.service'
-import ErrorFilter from '@/common/error.filter'
 import ApiService from '@/common/api.service'
+import ErrorFilter from '@/common/error.filter'
+
+import { mount } from '@vue/test-utils'
 
 ApiService.init()
 

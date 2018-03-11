@@ -7,6 +7,9 @@
 </template>
 
 <style scoped>
+/**
+ * The footer style
+ */
 
 @media (min-width: 768px) {
   .masthead {

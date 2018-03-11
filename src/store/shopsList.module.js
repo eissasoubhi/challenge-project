@@ -1,10 +1,6 @@
-import { ShopsService } from '@/common/api.service'
 import { FETCH_SHOPS } from './actions.type'
-import {
-  FETCH_START,
-  FETCH_END,
-  UPDATE_SHOP_IN_LIST
-} from './mutations.type'
+import { ShopsService } from '@/common/api.service'
+import {FETCH_START, FETCH_END, UPDATE_SHOP_IN_LIST } from './mutations.type'
 
 const state = {
   shops: [],
@@ -25,6 +21,9 @@ const getters = {
 }
 
 const actions = {
+  /**
+   * Get the shops list with filtering
+   */
   [FETCH_SHOPS] ({ commit }, params) {
     commit(FETCH_START)
     return ShopsService.query(params.filters)
