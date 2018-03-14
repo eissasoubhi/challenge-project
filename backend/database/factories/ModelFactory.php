@@ -26,7 +26,7 @@ $factory->define(App\Shop::class, function (\Faker\Generator $faker) {
 
     return [
         'picture' => 'http://placehold.it/150x150',
-        'name' => $faker->name,
+        'name' => str_replace('.', ' ', $faker->unique()->userName),
         'email' => $faker->unique()->safeEmail,
         'city' => $faker->city(),
         'location_type' => 'Point',

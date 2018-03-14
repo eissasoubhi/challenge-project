@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -13,6 +11,19 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['namespace' => 'Api'], function () {
+
+    Route::post('users/login', 'AuthController@login');
+    Route::post('users', 'AuthController@register');
+
+    Route::get('user', 'UserController@index');
+
+    Route::post('shops/{shop}/favorite', 'FavoriteController@add');
+    Route::delete('shops/{shop}/favorite', 'FavoriteController@remove');
+
+    Route::resource('shops', 'ShopController', [
+        'only' => [
+            'index', 'show'
+        ]
+    ]);
 });
