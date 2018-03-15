@@ -4,38 +4,31 @@ namespace App\Http\Controllers\Api;
 
 use App\Shop;
 use App\HfShopsApp\Paginate\Paginate;
+use App\HfShopsApp\Filters\ShopFilter;
+use App\HfShopsApp\Transformers\ShopTransformer;
 
 class ShopController extends ApiController
 {
     /**
-     * Get all the shops.
+     * ShopController constructor.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @param ShopTransformer $transformer
      */
-    public function index()
+    public function __construct(ShopTransformer $transformer)
     {
-        $username = request()->get('favorited', false);
-
-        $shops = new Paginate(Shop::favoritedByUser($username));
-
-        return $this->respondWithPagination($shops);
+        $this->transformer = $transformer;
     }
 
-    public function transform($data)
+    /**
+     * Get all the shops.
+     *
+     * @param ShopFilter $filter
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function index(ShopFilter $filter)
     {
-        return [
-            'id'                => $data['id'],
-            'picture'           => $data['picture'],
-            'name'              => $data['name'],
-            'email'             => $data['email'],
-            'city'              => $data['city'],
-            'createdAt'         => $data['created_at']->toAtomString(),
-            'updatedAt'         => $data['updated_at']->toAtomString(),
-            'favorited'         => $data['favorited'],
-            'location' => [
-                'type'          => $data['location_type'],
-                'coordinates'   => $data['location_coordinates']
-            ]
-        ];
+        $shops = new Paginate(Shop::filter($filter));
+
+        return $this->respondWithPagination($shops);
     }
 }

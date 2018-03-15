@@ -5,9 +5,16 @@ namespace App\Http\Controllers\Api;
 use Exception;
 use App\Http\Controllers\Controller;
 use App\HfShopsApp\Paginate\Paginate;
+use App\HfShopsApp\Transformers\Transformer;
 
 class ApiController extends Controller
 {
+    /** \App\HfShopsApp\Transformers\Transformer
+     *
+     * @var null
+     */
+    protected $transformer = null;
+
     /**
      * Return generic json response with the given data.
      *
@@ -33,26 +40,23 @@ class ApiController extends Controller
     {
         $this->checkPaginated($paginated);
 
-        $data = $this->paginate($paginated);
+        $this->checkTransformer();
+
+        $data = $this->transformer->paginate($paginated);
 
         return $this->respond($data, $statusCode, $headers);
     }
 
     /**
-     * Transform a paginated item.
+     * Check if valid transformer is set.
      *
-     * @param Paginate $paginated
-     * @return array
+     * @throws Exception
      */
-    public function paginate(Paginate $paginated)
+    private function checkTransformer()
     {
-        $data = [
-            'data' => $paginated->getData()->map([$this, 'transform'])
-        ];
-
-        return array_merge($data, [
-            'total' => $paginated->getTotal()
-        ]);
+        if ($this->transformer === null || ! $this->transformer instanceof Transformer) {
+            throw new Exception('Invalid data transformer.');
+        }
     }
 
     /**
