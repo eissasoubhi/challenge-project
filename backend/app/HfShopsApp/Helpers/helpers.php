@@ -27,8 +27,8 @@ if(!function_exists('geo_distance')){
       $b = sin($latFrom) * sin($latTo) + cos($latFrom) * cos($latTo) * cos($lonDelta);
 
       $angle = atan2(sqrt($a), $b);
-      $meters = $angle * $earthRadius;
-      $miles = $meters * 0.000621371;
-      return round($miles, 2);
+      $in_meters = $angle * $earthRadius;
+
+      return $in_meters;
     }
 }

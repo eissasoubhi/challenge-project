@@ -8,32 +8,27 @@ use Illuminate\Http\Request;
 class ShopCollectionFilter extends CollectionFilter
 {
     /**
-     * Filter by favorited username.
-     * Get all the shops favorited by the user with given username.
+     * Sort by distance.
+     * Get the list of shops sorted by distance
      *
-     * @param $username
+     * @param $coordinates
      * @return \Illuminate\Support\Collection
      */
-    protected function nearby($coordinates)
+    protected function nearby($user_coordinates)
     {
-        $coordinates_array = explode(',', $coordinates);
+        $user_place = explode(',', $user_coordinates);
 
-        if (count($coordinates_array) < 2)
+        if (count($user_place) < 2)
             return;
 
-        $this->collection->transform(function ($shop) use ($coordinates_array) {
-            $shop->distance = geo_distance(
-                $coordinates_array[0],
-                $coordinates_array[1],
-                $shop->coordinates[0],
-                $shop->coordinates[1]
-            );
+        $this->collection->transform(function ($shop) use ($user_place) {
+            $shop->setDistanceFrom($user_place);
 
             return $shop;
         });
 
         $this->collection = $this->collection->sortBy(function ($shop) {
-            return $shop->distance;
+            return $shop->distance_in_meters;
         })
         // reset keys
         ->values();

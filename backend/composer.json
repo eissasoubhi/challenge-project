@@ -23,8 +23,8 @@
         "psr-4": {
             "App\\": "app/"
         },
-        "files": [
-            "app/HfShopsApp/Helpers/helpers.php"
+        "files":[
+            "app/HfShopsApp/helpers/helpers.php"
         ]
     },
     "autoload-dev": {

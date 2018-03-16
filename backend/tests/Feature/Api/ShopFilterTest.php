@@ -97,4 +97,36 @@ class ShopFilterTest extends TestCase
                 'shopsCount' => 3
             ]);
     }
+
+    /** @test */
+    public function it_returns_the_shops_sorted_by_distance_in_ascending_order()
+    {
+        $shops = factory(\App\Shop::class)->times(15)->create();
+
+        $response = $this->getJson('/api/shops?nearby=65.758453,-148.316502');
+
+        $json = $response->json();
+
+        $distances = collect($json['shops'])->pluck('distance');
+
+        $distances_array = $distances->map(function ($distance) {
+            return intval($distance);
+        })->all();
+
+        $response->assertStatus(200);
+        $this->assertNotEquals($distances->sum(), 0);
+        $this->assertTrue($this->arraySorted($distances_array));
+
+    }
+
+    public function arraySorted($array) {
+        $a = $array;
+        $b = $array;
+        sort($b);
+        if ($a == $b){
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
