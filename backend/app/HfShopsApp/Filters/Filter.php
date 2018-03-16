@@ -14,11 +14,6 @@ abstract class Filter
     protected $request;
 
     /**
-     * @var \Illuminate\Database\Eloquent\Builder
-     */
-    protected $builder;
-
-    /**
      * Filter constructor.
      *
      * @param \Illuminate\Http\Request $request
@@ -60,23 +55,9 @@ abstract class Filter
     /**
      * Apply all the requested filters if available.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $builder
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param  $data
+     * @return mixed
      */
-    public function apply(Builder $builder)
-    {
-        $this->builder = $builder;
+    public abstract function apply($data);
 
-        foreach ($this->getFilters() as $name => $value) {
-            if (method_exists($this, $name)) {
-                if ($value) {
-                    $this->$name($value);
-                } else {
-                    $this->$name();
-                }
-            }
-        }
-
-        return $this->builder;
-    }
 }

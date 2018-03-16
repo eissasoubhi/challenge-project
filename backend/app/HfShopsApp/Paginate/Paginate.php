@@ -2,6 +2,7 @@
 
 namespace App\HfShopsApp\Paginate;
 
+use App\HfShopsApp\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
 
 class Paginate
@@ -24,10 +25,11 @@ class Paginate
      * Paginate constructor.
      *
      * @param \Illuminate\Database\Eloquent\Builder $builder
+     * @param \App\HfShopsApp\Filters\Filter $filter
      * @param int $limit
      * @param int $offset
      */
-    public function __construct(Builder $builder, $limit = 20, $offset = 0)
+    public function __construct(Builder $builder, Filter $filter, $limit = 20, $offset = 0)
     {
         $limit = request()->get('limit', $limit);
 
@@ -35,7 +37,9 @@ class Paginate
 
         $this->total = $builder->count();
 
-        $this->data = $builder->skip($offset)->take($limit)->get();
+        $data = $builder->skip($offset)->take($limit)->get();
+
+        $this->data = $filter->apply($data);
     }
 
     /**

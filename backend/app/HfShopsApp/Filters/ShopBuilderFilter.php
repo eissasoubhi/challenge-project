@@ -4,7 +4,7 @@ namespace App\HfShopsApp\Filters;
 
 use App\User;
 
-class ShopFilter extends Filter
+class ShopBuilderFilter extends BuilderFilter
 {
     /**
      * Filter by favorited username.
