@@ -2,8 +2,6 @@
 
 namespace App\HfShopsApp\Distance;
 
-use App\Shop;
-
 trait HasDistance
 {
     /**
