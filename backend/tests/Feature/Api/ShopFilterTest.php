@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Api;
 
+use Carbon\Carbon;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
@@ -116,7 +117,70 @@ class ShopFilterTest extends TestCase
         $response->assertStatus(200);
         $this->assertNotEquals($distances->sum(), 0);
         $this->assertTrue($this->arraySorted($distances_array));
+    }
 
+    /** @test */
+    public function it_returns_the_shops_except_the_favorited_by_the_user_along_with_correct_total_shop_count()
+    {
+        $shops = factory(\App\Shop::class)->times(15)->create();
+        $this->user->favorite($shops[0]);
+        $this->user->favorite($shops[2]);
+        $this->user->favorite($shops[4]);
+
+        $response = $this->getJson("/api/shops?exceptfavorited={$this->user->username}&limit=15");
+
+        $json = $response->json();
+
+        $shops_IDs = collect($json['shops'])->pluck('id');
+
+        $are_favorited_shops_missing = $shops_IDs->every(function ($id) use ($shops) {
+            return !in_array($id, [$shops[0]->id, $shops[2]->id, $shops[4]->id]);
+        });
+
+        $response->assertStatus(200);
+        $this->assertEquals($json['shopsCount'], 15 - 3);
+        $this->assertTrue($are_favorited_shops_missing);
+    }
+
+
+    /** @test */
+    public function it_hides_the_disliked_shops_within_the_list_during_the_next_2_hours()
+    {
+        $shops = factory(\App\Shop::class)->times(15)->create();
+        $this->user->dislike($shops[0]);
+        $this->user->dislike($shops[2]);
+        $this->user->dislike($shops[4]);
+
+        $response1 = $this->getJson("/api/shops?exceptdisliked={$this->user->username}&limit=15");
+
+        $json1 = $response1->json();
+
+        $shops_IDs1 = collect($json1['shops'])->pluck('id');
+
+        $are_disliked_shops_missing_before_2hours = $shops_IDs1->every(function ($id) use ($shops) {
+            return !in_array($id, [$shops[0]->id, $shops[2]->id, $shops[4]->id]);
+        });
+
+        Carbon::setTestNow(Carbon::now()->addHours(2));
+
+        $response2 = $this->getJson("/api/shops?exceptdisliked={$this->user->username}&limit=15");
+
+        // dd(Carbon::now());
+
+        $json2 = $response2->json();
+
+        $shops_IDs2 = collect($json2['shops'])->pluck('id');
+
+        $are_disliked_shops_missing_after_2hours = $shops_IDs2->every(function ($id) use ($shops) {
+            return !in_array($id, [$shops[0]->id, $shops[2]->id, $shops[4]->id]);
+        });
+
+        $response1->assertStatus(200);
+        $response2->assertStatus(200);
+        $this->assertTrue($are_disliked_shops_missing_before_2hours, "the disliked shops are not missing before 2hours");
+        $this->assertFalse($are_disliked_shops_missing_after_2hours, "the disliked shops are missing after 2hours");
+
+        Carbon::setTestNow();
     }
 
     public function arraySorted($array) {
