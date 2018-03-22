@@ -17,6 +17,7 @@ class ShopTransformer extends Transformer
             'createdAt'         => $data['created_at']->toAtomString(),
             'updatedAt'         => $data['updated_at']->toAtomString(),
             'favorited'         => $data['favorited'],
+            'disliked'          => $data['disliked'],
             'distance'          => $data->distance,
             'location' => [
                 'type'          => $data['location_type'],

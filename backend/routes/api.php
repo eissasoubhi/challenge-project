@@ -21,6 +21,8 @@ Route::group(['namespace' => 'Api'], function () {
     Route::post('shops/{shop}/favorite', 'FavoriteController@add');
     Route::delete('shops/{shop}/favorite', 'FavoriteController@remove');
 
+    Route::post('shops/{shop}/dislike', 'DislikeController@add');
+
     Route::resource('shops', 'ShopController', [
         'only' => [
             'index', 'show'

@@ -19,7 +19,7 @@ class ShopFavoriteTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_the_article_favorite_properties_accordingly_when_favorited_and_unfavorited()
+    public function it_returns_the_shop_favorite_properties_accordingly_when_favorited_and_unfavorited()
     {
         $response = $this->postJson("/api/shops/{$this->shop->id}/favorite", [], $this->headers);
 
