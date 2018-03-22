@@ -21,6 +21,17 @@ trait HasFavorite
     }
 
     /**
+     * Unfavorite the given shop.
+     *
+     * @param Shop $shop
+     * @return mixed
+     */
+    public function unFavorite(Shop $shop)
+    {
+        return $this->favorites()->detach($shop);
+    }
+
+    /**
      * Get the shops favorited by the user.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
