@@ -15,6 +15,19 @@ abstract class Transformer
     protected $resourceName = 'data';
 
     /**
+     * Transform a single item.
+     *
+     * @param $data
+     * @return array
+     */
+    public function item($data)
+    {
+        return [
+            $this->resourceName => $this->transform($data)
+        ];
+    }
+
+    /**
      * Transform a paginated item.
      *
      * @param Paginate $paginated

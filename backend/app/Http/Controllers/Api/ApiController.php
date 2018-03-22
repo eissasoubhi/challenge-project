@@ -29,6 +29,27 @@ class ApiController extends Controller
     }
 
     /**
+     * Respond with data after applying transformer.
+     *
+     * @param $data
+     * @param int $statusCode
+     * @param array $headers
+     * @return \Illuminate\Http\JsonResponse
+     */
+    protected function respondWithTransformer($data, $statusCode = 200, $headers = [])
+    {
+        $this->checkTransformer();
+
+        if ($data instanceof Collection) {
+            $data = $this->transformer->collection($data);
+        } else {
+            $data = $this->transformer->item($data);
+        }
+
+        return $this->respond($data, $statusCode, $headers);
+    }
+
+    /**
      * Respond with pagination.
      *
      * @param $paginated
@@ -57,6 +78,20 @@ class ApiController extends Controller
         if ($this->transformer === null || ! $this->transformer instanceof Transformer) {
             throw new Exception('Invalid data transformer.');
         }
+    }
+
+    /**
+     * Respond with failed login.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    protected function respondFailedLogin()
+    {
+        return $this->respond([
+            'errors' => [
+                'email or password' => 'is invalid',
+            ]
+        ], 422);
     }
 
     /**

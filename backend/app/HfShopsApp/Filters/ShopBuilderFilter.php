@@ -7,15 +7,15 @@ use App\User;
 class ShopBuilderFilter extends BuilderFilter
 {
     /**
-     * Filter by favorited username.
-     * Get all the shops favorited by the user with given username.
+     * Filter by favorited email.
+     * Get all the shops favorited by the user with given email.
      *
-     * @param $username
+     * @param $email
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    protected function favorited($username)
+    protected function favorited($email)
     {
-        $user = User::whereUsername($username)->first();
+        $user = User::whereEmail($email)->first();
 
         $shopIds = $user ? $user->favorites()->pluck('id')->toArray() : [];
 
@@ -23,15 +23,15 @@ class ShopBuilderFilter extends BuilderFilter
     }
 
     /**
-     * Exclude favorited by username.
-     * Exclude all the shops favorited by the user with given username.
+     * Exclude favorited by email.
+     * Exclude all the shops favorited by the user with given email.
      *
-     * @param $username
+     * @param $email
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    protected function exceptfavorited($username)
+    protected function exceptfavorited($email)
     {
-        $user = User::whereUsername($username)->first();
+        $user = User::whereEmail($email)->first();
 
         $shopIds = $user ? $user->favorites()->pluck('id')->toArray() : [];
 
@@ -39,15 +39,15 @@ class ShopBuilderFilter extends BuilderFilter
     }
 
     /**
-     * Exclude favorited by username.
-     * Exclude all the shops favorited by the user with given username.
+     * Exclude favorited by email.
+     * Exclude all the shops favorited by the user with given email.
      *
-     * @param $username
+     * @param $email
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    protected function exceptdisliked($username)
+    protected function exceptdisliked($email)
     {
-        $user = User::whereUsername($username)->first();
+        $user = User::whereEmail($email)->first();
 
         $undisplayable_shops = $user->dislikes->filter(function ($shop) {
             return !$shop->isDisplayable();

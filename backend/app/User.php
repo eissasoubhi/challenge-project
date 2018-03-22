@@ -2,6 +2,8 @@
 
 namespace App;
 
+use Hash;
+use JWTAuth;
 use App\HfShopsApp\Favorite\HasFavorite;
 use App\HfShopsApp\Dislike\HasDislike;
 use Illuminate\Notifications\Notifiable;
@@ -28,4 +30,24 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * Hash the password before setting it
+     *
+     * @param String $password
+     */
+    public function setPasswordAttribute($password)
+    {
+        $this->attributes['password'] = Hash::make($password);
+    }
+
+    /**
+     * Generate a JWT token for the user.
+     *
+     * @return string
+     */
+    public function getTokenAttribute()
+    {
+        return JWTAuth::fromUser($this);
+    }
 }

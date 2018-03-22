@@ -8,6 +8,8 @@ abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
 
+    protected $loggedInUser;
+
     protected $user;
 
     protected $headers;
@@ -16,9 +18,14 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
 
-        $users = factory(\App\User::class)->times(1)->create();
+        $users = factory(\App\User::class)->times(2)->create();
 
-        $this->user = $users[0];
+        $this->loggedInUser = $users[0];
 
+        $this->user = $users[1];
+
+        $this->headers = [
+            'Authorization' => "Token {$this->loggedInUser->token}"
+        ];
     }
 }

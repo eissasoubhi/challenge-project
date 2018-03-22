@@ -13,7 +13,7 @@ class ShopFilterTest extends TestCase
     /** @test */
     public function it_returns_an_empty_array_of_shops_when_no_favorited_shops_exist_for_a_user_or_invalid_user()
     {
-        $response = $this->getJson("/api/shops?favorited={$this->user->username}");
+        $response = $this->getJson("/api/shops?favorited={$this->user->email}");
 
         $response->assertStatus(200)
             ->assertJson([
@@ -38,7 +38,7 @@ class ShopFilterTest extends TestCase
         $this->user->favorite($shops[2]);
         $this->user->favorite($shops[4]);
 
-        $response = $this->getJson("/api/shops?favorited={$this->user->username}");
+        $response = $this->getJson("/api/shops?favorited={$this->user->email}");
 
         $response->assertStatus(200)
             ->assertJson([
@@ -127,7 +127,7 @@ class ShopFilterTest extends TestCase
         $this->user->favorite($shops[2]);
         $this->user->favorite($shops[4]);
 
-        $response = $this->getJson("/api/shops?exceptfavorited={$this->user->username}&limit=15");
+        $response = $this->getJson("/api/shops?exceptfavorited={$this->user->email}&limit=15");
 
         $json = $response->json();
 
@@ -151,7 +151,7 @@ class ShopFilterTest extends TestCase
         $this->user->dislike($shops[2]);
         $this->user->dislike($shops[4]);
 
-        $response1 = $this->getJson("/api/shops?exceptdisliked={$this->user->username}&limit=15");
+        $response1 = $this->getJson("/api/shops?exceptdisliked={$this->user->email}&limit=15");
 
         $json1 = $response1->json();
 
@@ -163,9 +163,7 @@ class ShopFilterTest extends TestCase
 
         Carbon::setTestNow(Carbon::now()->addHours(2));
 
-        $response2 = $this->getJson("/api/shops?exceptdisliked={$this->user->username}&limit=15");
-
-        // dd(Carbon::now());
+        $response2 = $this->getJson("/api/shops?exceptdisliked={$this->user->email}&limit=15");
 
         $json2 = $response2->json();
 
