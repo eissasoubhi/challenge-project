@@ -40,4 +40,18 @@ trait HasDislike
     {
         return !! $this->dislikes()->where('shop_id', $shop->id)->count();
     }
+
+    /**
+     * Undislike the given shop.
+     *
+     * @param Shop $shop
+     * @return mixed
+     */
+    public function undislike(Shop $shop)
+    {
+        if ($this->hasDisliked($shop))
+        {
+            return $this->dislikes()->detach($shop);
+        }
+    }
 }

@@ -144,6 +144,31 @@ class ShopFilterTest extends TestCase
 
 
     /** @test */
+    public function it_undislike_the_disliked_shops_afte_the_next_2_hours()
+    {
+        $shops = factory(\App\Shop::class)->times(15)->create();
+        $this->user->dislike($shops[0]);
+        $this->user->dislike($shops[2]);
+        $this->user->dislike($shops[4]);
+
+        $this->assertTrue($this->user->hasDisliked($shops[0]));
+        $this->assertTrue($this->user->hasDisliked($shops[2]));
+        $this->assertTrue($this->user->hasDisliked($shops[4]));
+
+        Carbon::setTestNow(Carbon::now()->addHours(2));
+
+        // trigger the exceptdisliked function
+        $response = $this->getJson("/api/shops?exceptdisliked={$this->user->email}&limit=15");
+
+        $response->assertStatus(200);
+        $this->assertFalse($this->user->hasDisliked($shops[0]));
+        $this->assertFalse($this->user->hasDisliked($shops[2]));
+        $this->assertFalse($this->user->hasDisliked($shops[4]));
+
+        Carbon::setTestNow();
+    }
+
+    /** @test */
     public function it_hides_the_disliked_shops_within_the_list_during_the_next_2_hours()
     {
         $shops = factory(\App\Shop::class)->times(15)->create();

@@ -49,8 +49,18 @@ class ShopBuilderFilter extends BuilderFilter
     {
         $user = User::whereEmail($email)->first();
 
-        $undisplayable_shops = $user->dislikes->filter(function ($shop) {
+        $disliked_shops = $user->dislikes;
+
+        $undisplayable_shops = $disliked_shops->filter(function ($shop) {
             return !$shop->isDisplayable();
+        });
+
+        $displayable_shops = $disliked_shops->filter(function ($shop) {
+            return $shop->isDisplayable();
+        });
+
+        $displayable_shops->each(function ($shop) use ($user) {
+            $user->undislike($shop);
         });
 
         $shopIds = $user ? $undisplayable_shops->pluck('id')->toArray() : [];
