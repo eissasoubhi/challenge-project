@@ -177,9 +177,7 @@ class ShopFilterTest extends TestCase
         $this->user->dislike($shops[2]);
         $this->user->dislike($shops[4]);
 
-        $response1 = $this->getJson("/api/shops?exceptdisliked={$this->user->email}&limit=15", [
-            'Authorization' => "Token {$this->loggedInUser->token}"
-        ]);
+        $response1 = $this->getJson("/api/shops?exceptdisliked={$this->user->email}&limit=15", $this->headers);
 
         $json1 = $response1->json();
 
@@ -191,9 +189,7 @@ class ShopFilterTest extends TestCase
 
         Carbon::setTestNow(Carbon::now()->addHours(2));
 
-        $response2 = $this->getJson("/api/shops?exceptdisliked={$this->user->email}&limit=15", [
-            'Authorization' => "Token {$this->loggedInUser->token}"
-        ]);
+        $response2 = $this->getJson("/api/shops?exceptdisliked={$this->user->email}&limit=15", $this->headers);
 
         $json2 = $response2->json();
 
@@ -220,16 +216,5 @@ class ShopFilterTest extends TestCase
         } else {
             return false;
         }
-    }
-
-    protected function refreshUser(User $user)
-    {
-        $user->delete();
-
-        return factory(\App\User::class)->create([
-            'email' => $user->email,
-            'password' => $user->password,
-            'id' => $user->id
-        ]);
     }
 }
