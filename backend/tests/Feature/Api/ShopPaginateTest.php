@@ -14,7 +14,7 @@ class ShopPaginateTest extends TestCase
     {
         factory(\App\Shop::class)->times(25)->create();
 
-        $response = $this->getJson('/api/shops');
+        $response = $this->getJson('/api/shops', $this->headers);
 
         $response->assertStatus(200)
             ->assertJson([
@@ -29,7 +29,7 @@ class ShopPaginateTest extends TestCase
             'Expected latest 20 shops by default'
         );
 
-        $response = $this->getJson('/api/shops?limit=10&offset=5');
+        $response = $this->getJson('/api/shops?limit=10&offset=5', $this->headers);
 
         $response->assertStatus(200)
             ->assertJson([

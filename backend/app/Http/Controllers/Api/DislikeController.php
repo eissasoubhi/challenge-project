@@ -15,6 +15,7 @@ class DislikeController extends ApiController
     public function __construct(ShopTransformer $transformer)
     {
         $this->transformer = $transformer;
+
         $this->middleware('auth.api');
     }
 

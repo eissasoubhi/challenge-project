@@ -19,7 +19,7 @@ class RegistrationTest extends TestCase
             ]
         ];
 
-        $response = $this->postJson('/api/users', $data);
+        $response = $this->postJson('/api/users', $data, $this->headers);
         $json = $response->json();
 
         $response->assertStatus(200)
@@ -38,7 +38,7 @@ class RegistrationTest extends TestCase
     {
         $data = [];
 
-        $response = $this->postJson('/api/users', $data);
+        $response = $this->postJson('/api/users', $data, $this->headers);
 
         $response->assertStatus(422)
             ->assertJson([
@@ -59,7 +59,7 @@ class RegistrationTest extends TestCase
             ]
         ];
 
-        $response = $this->postJson('/api/users', $data);
+        $response = $this->postJson('/api/users', $data, $this->headers);
 
         $response->assertStatus(422)
             ->assertJson([
@@ -80,7 +80,7 @@ class RegistrationTest extends TestCase
             ]
         ];
 
-        $response = $this->postJson('/api/users', $data);
+        $response = $this->postJson('/api/users', $data, $this->headers);
 
         $response->assertStatus(422)
             ->assertJson([

@@ -18,6 +18,9 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
 
+        // JWT time to live : 3 hours
+        config(['jwt.ttl' => 180]);
+
         $users = factory(\App\User::class)->times(2)->create();
 
         $this->loggedInUser = $users[0];

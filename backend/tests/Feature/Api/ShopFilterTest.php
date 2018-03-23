@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Api;
 
+use App\User;
 use Carbon\Carbon;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -13,7 +14,7 @@ class ShopFilterTest extends TestCase
     /** @test */
     public function it_returns_an_empty_array_of_shops_when_no_favorited_shops_exist_for_a_user_or_invalid_user()
     {
-        $response = $this->getJson("/api/shops?favorited={$this->user->email}");
+        $response = $this->getJson("/api/shops?favorited={$this->user->email}", $this->headers);
 
         $response->assertStatus(200)
             ->assertJson([
@@ -21,7 +22,7 @@ class ShopFilterTest extends TestCase
                 'shopsCount' => 0
             ]);
 
-        $response = $this->getJson('/api/shops?favorited=somerandomuser');
+        $response = $this->getJson('/api/shops?favorited=somerandomuser', $this->headers);
 
         $response->assertStatus(200)
             ->assertJson([
@@ -38,7 +39,7 @@ class ShopFilterTest extends TestCase
         $this->user->favorite($shops[2]);
         $this->user->favorite($shops[4]);
 
-        $response = $this->getJson("/api/shops?favorited={$this->user->email}");
+        $response = $this->getJson("/api/shops?favorited={$this->user->email}", $this->headers);
 
         $response->assertStatus(200)
             ->assertJson([
@@ -104,7 +105,7 @@ class ShopFilterTest extends TestCase
     {
         $shops = factory(\App\Shop::class)->times(15)->create();
 
-        $response = $this->getJson('/api/shops?nearby=65.758453,-148.316502');
+        $response = $this->getJson('/api/shops?nearby=65.758453,-148.316502', $this->headers);
 
         $json = $response->json();
 
@@ -127,7 +128,7 @@ class ShopFilterTest extends TestCase
         $this->user->favorite($shops[2]);
         $this->user->favorite($shops[4]);
 
-        $response = $this->getJson("/api/shops?exceptfavorited={$this->user->email}&limit=15");
+        $response = $this->getJson("/api/shops?exceptfavorited={$this->user->email}&limit=15", $this->headers);
 
         $json = $response->json();
 
@@ -158,7 +159,7 @@ class ShopFilterTest extends TestCase
         Carbon::setTestNow(Carbon::now()->addHours(2));
 
         // trigger the exceptdisliked function
-        $response = $this->getJson("/api/shops?exceptdisliked={$this->user->email}&limit=15");
+        $response = $this->getJson("/api/shops?exceptdisliked={$this->user->email}&limit=15", $this->headers);
 
         $response->assertStatus(200);
         $this->assertFalse($this->user->hasDisliked($shops[0]));
@@ -176,7 +177,9 @@ class ShopFilterTest extends TestCase
         $this->user->dislike($shops[2]);
         $this->user->dislike($shops[4]);
 
-        $response1 = $this->getJson("/api/shops?exceptdisliked={$this->user->email}&limit=15");
+        $response1 = $this->getJson("/api/shops?exceptdisliked={$this->user->email}&limit=15", [
+            'Authorization' => "Token {$this->loggedInUser->token}"
+        ]);
 
         $json1 = $response1->json();
 
@@ -188,7 +191,9 @@ class ShopFilterTest extends TestCase
 
         Carbon::setTestNow(Carbon::now()->addHours(2));
 
-        $response2 = $this->getJson("/api/shops?exceptdisliked={$this->user->email}&limit=15");
+        $response2 = $this->getJson("/api/shops?exceptdisliked={$this->user->email}&limit=15", [
+            'Authorization' => "Token {$this->loggedInUser->token}"
+        ]);
 
         $json2 = $response2->json();
 
@@ -200,13 +205,13 @@ class ShopFilterTest extends TestCase
 
         $response1->assertStatus(200);
         $response2->assertStatus(200);
-        $this->assertTrue($are_disliked_shops_missing_before_2hours, "the disliked shops are not missing before 2hours");
+        $this->assertTrue($are_disliked_shops_missing_before_2hours, "the disliked shops exist before 2hours");
         $this->assertFalse($are_disliked_shops_missing_after_2hours, "the disliked shops are missing after 2hours");
 
         Carbon::setTestNow();
     }
 
-    public function arraySorted($array) {
+    protected function arraySorted($array) {
         $a = $array;
         $b = $array;
         sort($b);
@@ -215,5 +220,16 @@ class ShopFilterTest extends TestCase
         } else {
             return false;
         }
+    }
+
+    protected function refreshUser(User $user)
+    {
+        $user->delete();
+
+        return factory(\App\User::class)->create([
+            'email' => $user->email,
+            'password' => $user->password,
+            'id' => $user->id
+        ]);
     }
 }

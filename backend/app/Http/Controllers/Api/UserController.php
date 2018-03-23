@@ -15,6 +15,7 @@ class UserController extends ApiController
     public function __construct(UserTransformer $transformer)
     {
         $this->transformer = $transformer;
+
         $this->middleware('auth.api');
     }
 
