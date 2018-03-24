@@ -44,7 +44,23 @@ export default {
   },
   props: {
     /**
-     * the username of the current user to get the preferred shops or null for nearby shops only
+     * the coordinates of the user sparated by a comma
+     */
+    userLocation: {
+      type: String,
+      required: false
+    },
+
+    /**
+     * wether the location is loaded or not yet
+     */
+    loadingLocation: {
+      type: Boolean,
+      required: false
+    },
+
+    /**
+     * the email of the current user to get the preferred shops or null for nearby shops only
      */
     favorited: {
       type: String,
@@ -86,11 +102,20 @@ export default {
     listConfig () {
       const filters = {
         offset: (this.currentPage - 1) * this.itemsPerPage,
-        limit: this.itemsPerPage
+        limit: this.itemsPerPage,
+        exceptdisliked: this.currentUser.email
       }
+
       if (this.favorited) {
         filters.favorited = this.favorited
+      } else {
+        filters.exceptfavorited = this.currentUser.email
+
+        if (this.userLocation) {
+          filters.nearby = this.userLocation
+        }
       }
+
       return {
         filters
       }
@@ -105,7 +130,9 @@ export default {
       }
       return [...Array(Math.ceil(this.shopsCount / this.itemsPerPage)).keys()].map(e => e + 1)
     },
-
+    ...mapGetters([
+      'currentUser'
+    ]),
     ...mapGetters([
       'shopsCount',
       'isLoading',
@@ -127,11 +154,17 @@ export default {
     favorited () {
       this.resetPagination()
       this.fetchShops()
+    },
+
+    loadingLocation () {
+      this.fetchShops()
     }
   },
 
   mounted () {
-    this.fetchShops()
+    if (!this.userLocation) {
+      this.fetchShops()
+    }
   },
 
   methods: {

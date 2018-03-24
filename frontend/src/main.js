@@ -9,9 +9,9 @@ import store from '@/store'
 import ApiService from '@/common/api.service'
 import ErrorFilter from '@/common/error.filter'
 
-require('bootstrap')
 global.jQuery = require('jquery')
-import 'bootstrap/dist/css/bootstrap.min.css'
+require('bootstrap')
+require('bootstrap/dist/css/bootstrap.min.css')
 require('font-awesome/css/font-awesome.min.css')
 
 Vue.config.productionTip = false

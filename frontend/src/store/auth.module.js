@@ -68,6 +68,7 @@ const actions = {
           context.commit(SET_AUTH, data.user)
         })
         .catch(({response}) => {
+          context.commit(PURGE_AUTH)
           context.commit(SET_ERROR, response.data.errors)
         })
     } else {

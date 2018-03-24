@@ -18,11 +18,11 @@ export default {
       'currentUser'
     ]),
 
-  /**
-   * the current user username to filter the shops by the preferred
-   */
+    /**
+    * the current user email to filter the shops by the preferred
+    */
     favorited () {
-      return this.currentUser.name
+      return this.currentUser.email
     }
   }
 }

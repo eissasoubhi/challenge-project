@@ -1,6 +1,6 @@
 import { FETCH_SHOPS } from './actions.type'
 import { ShopsService } from '@/common/api.service'
-import {FETCH_START, FETCH_END, UPDATE_SHOP_IN_LIST } from './mutations.type'
+import { FETCH_START, FETCH_END, UPDATE_SHOP_IN_LIST } from './mutations.type'
 
 const state = {
   shops: [],
@@ -53,6 +53,7 @@ const mutations = {
       // mix the results of different api calls, so we
       // protect ourselves by copying the information.
       shop.favorited = data.favorited
+      shop.disliked = data.disliked
       return shop
     })
   }

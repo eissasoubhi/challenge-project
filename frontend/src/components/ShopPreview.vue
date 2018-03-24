@@ -2,6 +2,9 @@
   <div class="col-lg-3 col-md-4 col-xs-6 shop-item  ">
     <div class="thumbnail">
       <h4> {{ shop.name }} </h4>
+      <div v-if="shop.distance" class="text-muted">
+        ({{ shop.distance }})
+      </div>
       <img class="img-fluid " src="http://placehold.it/400x300" alt="">
       <hr>
       <hf-shop-actions :shop="shop" :type="type" :requestConfig="requestConfig"></hf-shop-actions>

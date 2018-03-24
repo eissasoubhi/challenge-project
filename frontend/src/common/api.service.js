@@ -86,34 +86,6 @@ export const ShopsService = {
   query (params) {
     return ApiService
       .query('shops', { params: params })
-  },
-
-  /**
-   * Get a shop
-   */
-  get (id) {
-    return ApiService.get('shops', id)
-  },
-
-  /**
-   * Create a shop
-   */
-  create (params) {
-    return ApiService.post('shops', {shop: params})
-  },
-
-  /**
-   * Update a shop
-   */
-  update (id, params) {
-    return ApiService.update('shops', id, {shop: params})
-  },
-
-  /**
-   * Delete a shop
-   */
-  destroy (id) {
-    return ApiService.delete(`shops/${id}`)
   }
 }
 

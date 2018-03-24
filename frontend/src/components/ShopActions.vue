@@ -1,21 +1,24 @@
 <template>
-  <span>
+  <div class="shop-action">
+    <div v-if="isLoading" class="text-center shop-action-loading">
+      <img width="40" src="@/assets/loading.gif" alt="">
+    </div>
     <div v-if="type == 'all'" class="btn-group btn-group-justified" role="group">
       <div class="btn-group" role="group">
-        <button class="btn btn-danger btn-dislike" :disabled="shop.favorited === 0" v-on:click="dislike(shop.id)" >Dislike</button>
+        <button class="btn btn-danger btn-dislike" :disabled="shop.disliked" v-on:click="dislike(shop.id)" >Dislike</button>
       </div>
       <div class="btn-group" role="group">
-        <button class="btn btn-success btn-like" :disabled="shop.favorited === 1"  v-on:click="like(shop.id)" >Like</button>
+        <button class="btn btn-success btn-like" :disabled="shop.favorited"  v-on:click="like(shop.id)" >Like</button>
       </div>
     </div>
     <div v-if="type == 'favorited'" class="text-center" role="group">
-        <button class="btn btn-danger btn-unlike" :disabled="shop.favorited === null"  v-on:click="unlike(shop.id)" >Remove</button>
+        <button class="btn btn-danger btn-unlike" :disabled="!shop.favorited"  v-on:click="unlike(shop.id)" >Remove</button>
     </div>
-  </span>
+  </div>
 </template>
 
 <script>
-import { SHOP_DISLIKE, FETCH_SHOPS, FAVORITE_ADD, FAVORITE_REMOVE } from '@/store/actions.type'
+import { SHOP_DISLIKE, FAVORITE_ADD, FAVORITE_REMOVE } from '@/store/actions.type'
 
 export default {
   name: 'HfShopActions',
@@ -44,14 +47,21 @@ export default {
       required: true
     }
   },
+  data: () => {
+    return {
+      isLoading: false
+    }
+  },
   methods: {
     /**
      * like a shop
      */
     like (id) {
+      this.isLoading = true
       this.$store
         .dispatch(FAVORITE_ADD, id)
         .then(() => {
+          this.isLoading = false
           this.refreshShops()
         })
     },
@@ -60,9 +70,11 @@ export default {
      * unlike a shop
      */
     unlike (id) {
+      this.isLoading = true
       this.$store
         .dispatch(FAVORITE_REMOVE, id)
         .then((res) => {
+          this.isLoading = false
           this.refreshShops()
         })
     },
@@ -71,9 +83,11 @@ export default {
      * dislike a shop
      */
     dislike (id) {
+      this.isLoading = true
       this.$store
         .dispatch(SHOP_DISLIKE, id)
         .then((res) => {
+          this.isLoading = false
           this.refreshShops()
         })
     },
@@ -83,9 +97,22 @@ export default {
      */
     refreshShops (delay = 600) {
       setTimeout(() => {
-        this.$store.dispatch(FETCH_SHOPS, this.requestConfig)
+        // this.$store.dispatch(FETCH_SHOPS, this.requestConfig)
       }, delay)
     }
   }
 }
 </script>
+
+<style scoped>
+  .shop-action-loading{
+    position: absolute;
+    z-index: 99;
+    background: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100%;
+  }
+  .shop-action{
+    position: relative;
+  }
+</style>
