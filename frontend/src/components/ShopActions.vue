@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { SHOP_DISLIKE, FAVORITE_ADD, FAVORITE_REMOVE } from '@/store/actions.type'
+import { FETCH_SHOPS, SHOP_DISLIKE, FAVORITE_ADD, FAVORITE_REMOVE } from '@/store/actions.type'
 
 export default {
   name: 'HfShopActions',
@@ -97,7 +97,7 @@ export default {
      */
     refreshShops (delay = 600) {
       setTimeout(() => {
-        // this.$store.dispatch(FETCH_SHOPS, this.requestConfig)
+        this.$store.dispatch(FETCH_SHOPS, this.requestConfig)
       }, delay)
     }
   }

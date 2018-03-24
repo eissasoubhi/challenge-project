@@ -21,6 +21,11 @@ describe('The nearby shop list', () => {
       router
     })
 
+    wrapper.setProps({
+      // to disable the shops-fetch on the component mount event
+      userLocation: true
+    })
+
     helpers = new Helpers(wrapper)
   })
 
@@ -35,7 +40,9 @@ describe('The nearby shop list', () => {
     })
 
     wrapper.setProps({
-      itemsPerPage: 10
+      itemsPerPage: 10,
+      // now after the component is mounted, we reset the property to its initial state
+      userLocation: false
     })
 
     wrapper.vm.fetchShops()
@@ -53,7 +60,9 @@ describe('The nearby shop list', () => {
     })
 
     wrapper.setProps({
-      itemsPerPage: 10
+      itemsPerPage: 10,
+      // now after the component is mounted, we reset the property to its initial state
+      userLocation: false
     })
     wrapper.vm.fetchShops()
 
@@ -81,7 +90,9 @@ describe('The nearby shop list', () => {
     })
 
     wrapper.setProps({
-      itemsPerPage: 10
+      itemsPerPage: 10,
+      // now after the component is mounted, we reset the property to its initial state
+      userLocation: false
     })
     wrapper.vm.fetchShops()
 
@@ -100,7 +111,9 @@ describe('The nearby shop list', () => {
     })
 
     wrapper.setProps({
-      itemsPerPage: 10
+      itemsPerPage: 10,
+      // now after the component is mounted, we reset the property to its initial state
+      userLocation: false
     })
     wrapper.vm.fetchShops()
 
@@ -116,8 +129,11 @@ describe('The nearby shop list', () => {
     })
 
     wrapper.setProps({
-      itemsPerPage: 10
+      itemsPerPage: 10,
+      // now after the component is mounted, we reset the property to its initial state
+      userLocation: false
     })
+    wrapper.vm.fetchShops()
 
     moxios.wait(() => {
       expect(wrapper.vm.listConfig.filters.offset).toBe(20)
@@ -187,13 +203,11 @@ describe('The nearby shop list', () => {
     })
 
     wrapper.setProps({
-      itemsPerPage: 10
-    })
-    wrapper.vm.fetchShops()
-
-    wrapper.setProps({
+      itemsPerPage: 10,
       // the authenticated user name
-      favorited: 'johnDoe'
+      favorited: 'johnDoe',
+      // now after the component is mounted, we reset the property to its initial state
+      userLocation: false
     })
 
     moxios.wait(() => {
@@ -219,8 +233,12 @@ describe('The nearby shop list', () => {
       shop: {
         id: 1,
         name: 'shop 1',
-        favorited: 0
+        disliked: true
       }
+    })
+
+    wrapper.setProps({
+      itemsPerPage: 10
     })
 
     store.commit(FETCH_END, {
@@ -228,7 +246,7 @@ describe('The nearby shop list', () => {
         {
           id: 1,
           name: 'shop 1',
-          favorited: null
+          disliked: false
         }
       ],
       shopsCount: 1
@@ -236,7 +254,6 @@ describe('The nearby shop list', () => {
 
     moxios.wait(() => {
       expect(wrapper.find('button.btn-dislike').attributes().disabled).toBeFalsy()
-
       wrapper.find('button.btn-dislike').trigger('click')
 
       moxios.wait(() => {

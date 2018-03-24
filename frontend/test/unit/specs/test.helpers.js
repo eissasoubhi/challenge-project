@@ -65,4 +65,12 @@ export default class TestHelpers {
   click (selector) {
     this.wrapper.find(selector).trigger('click')
   }
+
+  recentRequest () {
+    return moxios.requests.mostRecent()
+  }
+
+  recentUrl () {
+    return this.recentRequest().url
+  }
 }
