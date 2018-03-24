@@ -1,3 +1,3 @@
 export default {}
-// export const API_URL = 'http://localhost:8080/api/v1'
-export const API_URL = 'http://localhost:8000/api'
+export const API_VERSION = 'v1'
+export const API_URL = 'http://localhost:8000/api/' + API_VERSION
