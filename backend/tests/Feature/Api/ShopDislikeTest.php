@@ -21,7 +21,7 @@ class ShopDislikeTest extends TestCase
     /** @test */
     public function it_returns_the_shop_dislike_properties_when_dislike()
     {
-        $response = $this->postJson("/api/shops/{$this->shop->id}/dislike", [], $this->headers);
+        $response = $this->postJson("/api/{$this->appVersion}/shops/{$this->shop->id}/dislike", [], $this->headers);
 
         $response->assertStatus(200)
             ->assertJson([
@@ -35,7 +35,7 @@ class ShopDislikeTest extends TestCase
     /** @test */
     public function it_returns_an_unauthorized_error_when_trying_to_dislike_without_logging_in()
     {
-        $response = $this->postJson("/api/shops/{$this->shop->id}/dislike");
+        $response = $this->postJson("/api/{$this->appVersion}/shops/{$this->shop->id}/dislike");
 
         $response->assertStatus(401);
     }

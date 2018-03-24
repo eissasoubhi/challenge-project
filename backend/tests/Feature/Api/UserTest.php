@@ -12,7 +12,7 @@ class UserTest extends TestCase
     /** @test */
     public function it_returns_the_current_user_when_logged_in()
     {
-        $response = $this->getJson('/api/user', $this->headers);
+        $response = $this->getJson("/api/{$this->appVersion}/user", $this->headers);
 
         $response->assertStatus(200)
             ->assertJson([
@@ -26,7 +26,7 @@ class UserTest extends TestCase
     /** @test */
     public function it_returns_invalid_token_error_when_using_a_wrong_token()
     {
-        $response = $this->getJson('/api/user', [
+        $response = $this->getJson("/api/{$this->appVersion}/user", [
             'Authorization' => 'Token InsertWrongTokenHereToTest'
         ]);
 
@@ -41,7 +41,7 @@ class UserTest extends TestCase
     /** @test */
     public function it_returns_an_unauthorized_error_when_not_logged_in()
     {
-        $response = $this->getJson('/api/user');
+        $response = $this->getJson("/api/{$this->appVersion}/user");
 
         $response->assertStatus(401);
     }

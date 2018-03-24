@@ -18,6 +18,8 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
 
+        $this->appVersion = 'v1';
+
         // JWT time to live : 3 hours
         config(['jwt.ttl' => 180]);
 
