@@ -101,23 +101,28 @@ class ShopFilterTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_the_shops_sorted_by_distance_in_ascending_order()
+    public function it_returns_the_shops_sorted_by_distance_in_ascending_order_all_along_pagination_pages()
     {
-        $shops = factory(\App\Shop::class)->times(15)->create();
+        $shops = factory(\App\Shop::class)->times(20)->create();
 
-        $response = $this->getJson("/api/{$this->appVersion}/shops?nearby=65.758453,-148.316502", $this->headers);
+        $page1 = $this->getJson("/api/{$this->appVersion}/shops?offset=0&limit=10&nearby=65.758453,-148.316502", $this->headers);
+        $page2 = $this->getJson("/api/{$this->appVersion}/shops?offset=10&limit=10&nearby=65.758453,-148.316502", $this->headers);
 
-        $json = $response->json();
+        $page1_json = $page1->json();
+        $page2_json = $page2->json();
 
-        $distances = collect($json['shops'])->pluck('distance');
+        $distances1 = collect($page1_json['shops'])->pluck('distance');
+        $distances2 = collect($page2_json['shops'])->pluck('distance');
+        $distances = $distances1->merge($distances2);
 
         $distances_array = $distances->map(function ($distance) {
             return intval($distance);
         })->all();
 
-        $response->assertStatus(200);
+        $page1->assertStatus(200);
+        $page2->assertStatus(200);
         $this->assertNotEquals($distances->sum(), 0);
-        $this->assertTrue($this->arraySorted($distances_array));
+        $this->assertTrue($this->arraySorted($distances_array), 'shops are not sorted by distance correctly');
     }
 
     /** @test */

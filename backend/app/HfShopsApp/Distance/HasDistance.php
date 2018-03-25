@@ -20,22 +20,15 @@ trait HasDistance
     }
 
     /**
-     * Set ditance in meters and in miles units.
-     * Calculates the the distance from the given coordinates and the shop coordinates
-     * and set it in distance_in_meters, distance_in_miles and distance attributes
+     * round the distance and add the miles unit at the end
      *
-     * @param Array $coordinates
-     * @return void
+     * @return String|null
      */
-    public function setDistanceFrom(array $coordinates)
+    public function getDistanceAttribute()
     {
-        $this->distance_in_meters = geo_distance(
-            $coordinates[0], $coordinates[1],
-            $this->coordinates[0], $this->coordinates[1]
-        );
+        if (! isset($this->attributes['distance']))
+            return null;
 
-        $this->distance_in_miles = $this->distance_in_meters *  0.000621371;
-
-        $this->distance = round($this->distance_in_miles, 2). ' mi';
+        return $this->distance = round($this->attributes['distance'], 2). ' mi';
     }
 }
