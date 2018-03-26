@@ -1,34 +1,19 @@
 <?php
-if(!function_exists('geo_distance')){
+
+if (! function_exists('remove_words')) {
     /**
-     * Calculates the great-circle distance between two points, with
-     * the Vincenty formula.
+     * Remove words from the start of a string.
      *
-     * @param float $latitudeFrom Latitude of start point in [deg decimal]
-     * @param float $longitudeFrom Longitude of start point in [deg decimal]
-     * @param float $latitudeTo Latitude of target point in [deg decimal]
-     * @param float $longitudeTo Longitude of target point in [deg decimal]
-     * @param float $earthRadius Mean earth radius in [m]
-     * @return float Distance between points in [m] (same as earthRadius)
-     * @link https://stackoverflow.com/questions/10053358/measuring-the-distance-between-two-coordinates-in-php#answer-10054282
+     * @param $text
+     * @param int $count
+     * @return string
      */
-    function geo_distance($latitudeFrom, $longitudeFrom, $latitudeTo, $longitudeTo)
+    function remove_words($text, $count = 1)
     {
-      $earthRadius = 6371000;
-      // convert from degrees to radians
-      $latFrom = deg2rad($latitudeFrom);
-      $lonFrom = deg2rad($longitudeFrom);
-      $latTo = deg2rad($latitudeTo);
-      $lonTo = deg2rad($longitudeTo);
+        if (str_word_count($text) > $count) {
+            return explode (' ', $text, $count + 1)[$count];
+        }
 
-      $lonDelta = $lonTo - $lonFrom;
-      $a = pow(cos($latTo) * sin($lonDelta), 2) +
-        pow(cos($latFrom) * sin($latTo) - sin($latFrom) * cos($latTo) * cos($lonDelta), 2);
-      $b = sin($latFrom) * sin($latTo) + cos($latFrom) * cos($latTo) * cos($lonDelta);
-
-      $angle = atan2(sqrt($a), $b);
-      $in_meters = $angle * $earthRadius;
-
-      return $in_meters;
+        return '';
     }
 }

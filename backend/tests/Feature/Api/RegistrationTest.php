@@ -43,8 +43,8 @@ class RegistrationTest extends TestCase
         $response->assertStatus(422)
             ->assertJson([
                 'errors' => [
-                    'email' => ['The email field is required.'],
-                    'password' => ['The password field is required.'],
+                    'email' => ['field is required.'],
+                    'password' => ['field is required.'],
                 ]
             ]);
     }
@@ -64,8 +64,8 @@ class RegistrationTest extends TestCase
         $response->assertStatus(422)
             ->assertJson([
                 'errors' => [
-                    'email' => ['The email must be a valid email address.'],
-                    'password' => ['The password must be at least 6 characters.'],
+                    'email' => ['must be a valid email address.'],
+                    'password' => ['must be at least 6 characters.'],
                 ]
             ]);
     }
@@ -85,7 +85,7 @@ class RegistrationTest extends TestCase
         $response->assertStatus(422)
             ->assertJson([
                 'errors' => [
-                    'email' => ['The email has already been taken.'],
+                    'email' => ['has already been taken.'],
                 ]
             ]);
     }

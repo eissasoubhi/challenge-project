@@ -28,16 +28,4 @@ class ApiRequest extends FormRequest
             //
         ];
     }
-
-    /**
-     * Wrap the errors in an array
-     *
-     * @return array
-     */
-    protected function formatErrors(Validator $validator)
-    {
-        return [
-            'errors' => $validator->getMessageBag()->toArray()
-        ];
-    }
 }

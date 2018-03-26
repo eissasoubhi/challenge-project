@@ -31,4 +31,7 @@ a
 body {
   padding-bottom: 40px;
 }
+.error-messages{
+  color: red;
+}
 </style>

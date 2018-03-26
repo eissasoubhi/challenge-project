@@ -24,7 +24,7 @@ const actions = {
    * Log the user in and save their local data
    */
   [LOGIN] (context, credentials) {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       ApiService
         .post('users/login', {user: credentials})
         .then(({data}) => {
@@ -33,6 +33,7 @@ const actions = {
         })
         .catch(({response}) => {
           context.commit(SET_ERROR, response.data.errors)
+          reject(response)
         })
     })
   },
@@ -53,6 +54,7 @@ const actions = {
         })
         .catch(({response}) => {
           context.commit(SET_ERROR, response.data.errors)
+          reject(response)
         })
     })
   },

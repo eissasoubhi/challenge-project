@@ -1,3 +1,7 @@
 export default (errorValue) => {
-  return `${errorValue[0]}`
+  if (Array.isArray(errorValue)) {
+    return `${errorValue[0]}`
+  }
+
+  return `${errorValue}`
 }

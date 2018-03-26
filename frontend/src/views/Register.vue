@@ -19,9 +19,12 @@
             <fieldset class="form-group">
               <input class="form-control form-control-lg" id="password" type="password" v-model="password" placeholder="Password">
             </fieldset>
-            <button class="btn btn-lg btn-primary pull-xs-right" id="submit">
+            <button :disabled="isLoading" class="btn btn-lg btn-primary pull-xs-right" id="submit">
               Sign up
             </button>
+            <span v-if="isLoading" class="text-center">
+              <img width="40" src="@/assets/loading.gif" alt="">
+            </span>
           </form>
         </div>
       </div>
@@ -38,7 +41,8 @@ export default {
   data () {
     return {
       email: '',
-      password: ''
+      password: '',
+      isLoading: false
     }
   },
   computed: {
@@ -48,13 +52,16 @@ export default {
   },
   methods: {
     onSubmit () {
+      this.isLoading = true
+
       this.$store.dispatch(REGISTER, {
         email: this.email,
         password: this.password
       })
-        .then(() => this.$router.push({
-          name: 'home'
-        }))
+        .then(() => this.$router.push({name: 'home'}))
+        .catch(() => {
+          this.isLoading = false
+        })
     }
   }
 }

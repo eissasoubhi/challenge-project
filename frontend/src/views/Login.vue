@@ -33,9 +33,12 @@
                 v-model="password"
                 placeholder="Password">
             </fieldset>
-            <button id="submit" class="btn btn-lg btn-primary pull-xs-right">
+            <button :disabled="isLoading" id="submit" class="btn btn-lg btn-primary pull-xs-right">
               Sign in
             </button>
+            <span v-if="isLoading" class="text-center">
+              <img width="40" src="@/assets/loading.gif" alt="">
+            </span>
           </form>
         </div>
       </div>
@@ -52,14 +55,20 @@ export default {
   data () {
     return {
       email: null,
-      password: null
+      password: null,
+      isLoading: false
     }
   },
   methods: {
     onSubmit (email, password) {
+      this.isLoading = true
+
       this.$store
         .dispatch(LOGIN, { email, password })
         .then(() => this.$router.push({ name: 'home' }))
+        .catch(() => {
+          this.isLoading = false
+        })
     }
   },
   computed: {
