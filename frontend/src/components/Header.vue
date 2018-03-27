@@ -10,7 +10,7 @@
           </button>
         <router-link class="navbar-brand"
             :to="'/'">
-           HF webCodingChallenge
+           <span class="part1">HF</span> <span class="part2">web</span><span class="part3">Coding</span><span class="part4">Challenge</span>
         </router-link>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
@@ -77,6 +77,23 @@ export default {
 </script>
 
 <style scoped>
+  .navbar-brand{
+    font-family: 'Oswald', sans-serif;
+  }
+  .navbar-brand .part1{
+    color: #445365;
+    font-weight: bold;
+  }
+  .navbar-brand .part2{
+    color: #5aba86;
+  }
+  .navbar-brand .part3{
+    color: #e76d5e;
+  }
+  .navbar-brand .part4{
+    color: #445365;
+    text-decoration: underline;
+  }
   .user-menu{
     margin-top: 8px;
   }

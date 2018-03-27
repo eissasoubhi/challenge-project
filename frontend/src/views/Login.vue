@@ -65,7 +65,7 @@ export default {
 
       this.$store
         .dispatch(LOGIN, { email, password })
-        .then(() => this.$router.push({ name: 'home' }))
+        .then(() => this.$router.push({ name: 'nearbyShops' }))
         .catch(() => {
           this.isLoading = false
         })

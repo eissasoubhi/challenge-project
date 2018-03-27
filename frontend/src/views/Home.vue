@@ -48,4 +48,7 @@ export default {
   .nav-item .active{
     border-bottom: 2px solid;
   }
+  .nav-item a{
+    border-bottom: 2px solid transparent;
+  }
 </style>

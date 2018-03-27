@@ -21,6 +21,13 @@ export default {
 }
 </script>
 
+<style >
+  @import url('https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300|Oswald|Quicksand');
+  body{
+    background-color: #e9eaea;
+  }
+</style>
+
 <style>
 .thumbnail,
 button,
@@ -30,8 +37,19 @@ a
 }
 body {
   padding-bottom: 40px;
+  font-family: 'Quicksand', sans-serif;
+}
+h1{
+  color: #445365;
+  font-family: 'Oswald', sans-serif;
 }
 .error-messages{
   color: red;
+}
+a{
+  color: #2f915c;
+}
+a:hover, a:focus, a:active{
+  color: #e76d5e;
 }
 </style>

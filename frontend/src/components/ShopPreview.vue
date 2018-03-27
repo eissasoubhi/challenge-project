@@ -3,7 +3,7 @@
     <div class="thumbnail">
       <h4> {{ shop.name }} </h4>
       <div v-if="shop.distance" class="text-muted">
-        ({{ shop.distance }})
+        ({{ shop.distance }} away)
       </div>
       <img class="img-fluid " src="http://placehold.it/400x300" alt="">
       <hr>

@@ -1,16 +1,16 @@
 <template>
 <div class="mastfoot">
     <div class="inner">
-        <p>Web coding chanllenge <a href="https://github.com/eissasoubhi/challenge-project"> application</a>, by <a href="https://github.com/eissasoubhi/">@eissasoubhi</a>.</p>
+        <p>Web coding chanllenge <a href="https://github.com/eissasoubhi/challenge-project"> project</a>, by <a href="https://github.com/eissasoubhi/">@eissasoubhi</a> <span class="with">with care</span></p>
     </div>
 </div>
 </template>
 
 <style scoped>
-/**
- * The footer style
- */
-
+.with{
+  color: #797979;
+  font-style: italic;
+}
 @media (min-width: 768px) {
   .masthead {
     position: fixed;
