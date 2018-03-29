@@ -1,5 +1,6 @@
 import ApiService from '@/common/api.service'
 import JwtService from '@/common/jwt.service'
+import router from '@/router'
 
 import { LOGIN, LOGOUT, REGISTER, CHECK_AUTH } from './actions.type'
 import { SET_AUTH, PURGE_AUTH, SET_ERROR } from './mutations.type'
@@ -69,9 +70,10 @@ const actions = {
         .then(({data}) => {
           context.commit(SET_AUTH, data.user)
         })
-        .catch(({response}) => {
+        .catch((error) => {
           context.commit(PURGE_AUTH)
-          context.commit(SET_ERROR, response.data.errors)
+          router.push({name: 'login'})
+          context.commit(SET_ERROR, {'Session expired': error})
         })
     } else {
       context.commit(PURGE_AUTH)

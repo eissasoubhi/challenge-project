@@ -2,6 +2,9 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 
+import 'bootstrap/dist/css/bootstrap.min.css'
+import 'font-awesome/css/font-awesome.min.css'
+
 import App from './App'
 import router from './router'
 import store from '@/store'
@@ -11,8 +14,6 @@ import ErrorFilter from '@/common/error.filter'
 
 global.jQuery = require('jquery')
 require('bootstrap')
-require('bootstrap/dist/css/bootstrap.min.css')
-require('font-awesome/css/font-awesome.min.css')
 
 Vue.config.productionTip = false
 Vue.filter('error', ErrorFilter)
