@@ -36,8 +36,9 @@ const ApiService = {
    * Get all/one resource
    */
   get (resource, id = '') {
+    id = id ? `/${id}` : ''
     return Vue.axios
-      .get(`${resource}/${id}`)
+      .get(`${resource}${id}`)
       .catch((error) => {
         throw new Error(`[RWV] ApiService ${error}`)
       })
@@ -54,7 +55,8 @@ const ApiService = {
    * Update a resource
    */
   update (resource, id, params) {
-    return Vue.axios.put(`${resource}/${id}`, params)
+    id = id ? `/${id}` : ''
+    return Vue.axios.put(`${resource}${id}`, params)
   },
 
   /**

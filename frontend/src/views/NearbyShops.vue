@@ -1,7 +1,7 @@
 <template>
   <div class="home">
-    <hf-geolocation v-on:coordinatesLoaded="getCoordinates"></hf-geolocation>
-    <hf-shop-list :loadingLocation="loading" :userLocation="coordinates" >Nearby Shops</hf-shop-list>
+    <hf-geolocation v-on:success="geolocationSucceeded = true" v-on:coordinatesLoaded="getCoordinates"></hf-geolocation>
+    <hf-shop-list v-show="geolocationSucceeded" :loadingLocation="loading" :userLocation="coordinates" >Nearby Shops</hf-shop-list>
   </div>
 </template>
 
@@ -15,6 +15,7 @@ export default {
   data () {
     return {
       userCoordinates: {},
+      geolocationSucceeded: false,
       loading: true
     }
   },

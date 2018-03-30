@@ -1,6 +1,7 @@
 <template>
   <div class="text-center">
-    <span v-if="error" class="alert alert-warning">{{ error }}</span>
+    <span v-if="loading" class="alert alert-info">{{ message }}</span>
+    <span v-if="error" class="alert alert-warning">{{ error }} <button class="btn btn-default" @click="reloadPage">Reload</button></span>
   </div>
 </template>
 <script>
@@ -10,25 +11,35 @@ export default {
   data () {
     return {
       error: '',
+      message: '',
+      loading: true,
       location: {}
     }
   },
   methods: {
     startGeolocation () {
+      this.message = 'Loading coordinates...'
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(this.getLocation, this.getErrors)
       } else {
         this.error = '<strong>We can not sort shops by distance</strong>: Geolocation is not supported by this browser.'
       }
     },
-
+    /**
+     * set coordinates
+     */
     getLocation (position) {
       this.location.latitude = position.coords.latitude
       this.location.longitude = position.coords.longitude
 
       this.$emit('coordinatesLoaded', {coordinates: this.location})
-    },
+      this.$emit('success')
 
+      this.loading = false
+    },
+    /**
+     * set api errors
+     */
     getErrors (error) {
       switch (error.code) {
         case error.PERMISSION_DENIED:
@@ -42,6 +53,11 @@ export default {
           this.error = '<strong>We can not sort shops by distance</strong>: An unknown error occurred for Geolocation .'
           break
       }
+      this.loading = false
+    },
+
+    reloadPage () {
+      window.location.reload()
     }
   },
 
