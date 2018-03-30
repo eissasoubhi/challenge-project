@@ -9,11 +9,11 @@ To set the application up and runing:
 
 `git clone git@github.com:eissasoubhi/challenge-project.git`
 ### First the UI 
-    cd challenge-project/frontend
-    // install dependencies
-    npm install
-    // serve with hot reload at http://localhost:8080
-    npm run dev
+`cd challenge-project/frontend`
+install dependencies
+`npm install`
+serve the UI with hot reload at http://localhost:8080
+`npm run dev`
 > If the port 8080 is unavailable the server will start at another port.
 
 
@@ -21,23 +21,23 @@ To set the application up and runing:
 In another terminal go to challenge-project/backend folder
 
 
-    // Install all the dependencies using composer
-    composer install
-    #Copy the example env file and make the required configuration changes in the .env file
-    cp .env.example .env
-    // Generate a new application key
-    php artisan key:generate
-    // Generate a new JWT authentication secret key
-    php artisan jwt:generate
-    // Run the database migrations (after creating the database and setting the connection in .env before migrating)
-    php artisan migrate
-    // Start the local development server
-    php artisan serve
-    You can now access the server at http://localhost:8000
-    // Database seeding with dummy data
-    php artisan db:seed
+Install all the dependencies using composer
+`composer install`
+Copy the example env file and make the required configuration changes in the .env file
+`cp .env.example .env`
+Generate a new application key
+`php artisan key:generate`
+Generate a new JWT authentication secret key
+`php artisan jwt:generate`
+Run the database migrations (after creating the database and setting the connection in .env before migrating)
+`php artisan migrate`
+Database seeding with dummy data
+`php artisan db:seed`
+Start the local development server
+`php artisan serve`
+You can now access the API at http://localhost:8000
 
-Now the application is accessible from here http://localhost:8080
+Now the application is accessible here http://localhost:8080
 
 ### Important note
 **Make sure the UI is running at http://localhost:8080 and the Api at http://localhost:8000 otherwise it wont work so you'll have to change both [the UI configuration](https://github.com/eissasoubhi/challenge-project/tree/master/frontend#configuration "the UI configuration") and the  and [the Api configuration](https://github.com/eissasoubhi/challenge-project/tree/master/backend#configuration "the Api configuration").**
