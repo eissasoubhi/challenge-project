@@ -1,7 +1,9 @@
 # HF webCodingChallenge
 It lists shops nearby the user location.
 
-*this project is a simple web coding challenge with coding-best-practices in mind created as the second step for job application in hidden founders.*
+*this project is a simple web coding challenge with coding-best-practices in mind created as the second step for job application in hidden founders.
+
+The technologies used in this project are [Vue.js](https://vuejs.org) for the UI and [Laravel](http://laravel.com) for the API.*
 
 See it in action http://hfwcc.eissa-soubhi.com
 
