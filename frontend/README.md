@@ -17,7 +17,7 @@ The stack is built using [vue-cli webpack](https://github.com/vuejs-templates/we
 > Note: the application expects the API to be running at http://localhost:8000 but that could be changed in the [configurations](#configuration "configurations")
 
 ## Configuration 
-The webpack configurations, *(eg: the server default port 8080)*, are located in the config folder.
+The webpack configurations, *(eg: the server default port 8080)*, are located in the `config` folder.
 
 For the application configurations (eg: the API base URL), are placed in `src/common/config.js` file.
 
