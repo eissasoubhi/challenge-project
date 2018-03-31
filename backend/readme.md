@@ -1,51 +1,135 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
+# HF webCodingChallenge API
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+This is the API of the HF webCodingChallenge project build with [Laravel](https://laravel.com)
 
-## About Laravel
+----------
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:
+# Getting started
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Installation
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications. A superb combination of simplicity, elegance, and innovation give you tools you need to build any application with which you are tasked.
+Please check the official laravel installation guide for server requirements before you start. [Official Documentation](https://laravel.com/docs/5.4/installation#installation)
 
-## Learning Laravel
 
-Laravel has the most extensive and thorough documentation and video tutorial library of any modern web application framework. The [Laravel documentation](https://laravel.com/docs) is thorough, complete, and makes it a breeze to get started learning the framework.
+Clone the repository
 
-If you're not in the mood to read, [Laracasts](https://laracasts.com) contains over 900 video tutorials on a range of topics including Laravel, modern PHP, unit testing, JavaScript, and more. Boost the skill level of yourself and your entire team by digging into our comprehensive video library.
+    git clone git@github.com:eissasoubhi/challenge-project.git
 
-## Laravel Sponsors
+Switch to the repo folder
 
-We would like to extend our thanks to the following sponsors for helping fund on-going Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](http://patreon.com/taylorotwell):
+    cd challenge-project
 
-- **[Vehikl](http://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Styde](https://styde.net)**
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
+Install all the dependencies using composer
 
-## Contributing
+    composer install
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
+Copy the example env file and make the required configuration changes in the .env file
 
-## Security Vulnerabilities
+    cp .env.example .env
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+Generate a new application key
 
-## License
+    php artisan key:generate
 
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+Generate a new JWT authentication secret key
+
+    php artisan jwt:generate
+
+Run the database migrations (**Create the database and Set the connection in .env before migrating**)
+
+    php artisan migrate
+
+Start the local development server
+
+    php artisan serve
+
+You can now access the server at http://localhost:8000
+
+**TL;DR command list**
+
+    git@github.com:eissasoubhi/challenge-project.git
+    cd challenge-project
+    composer install
+    cp .env.example .env
+    php artisan key:generate
+    php artisan jwt:generate 
+    
+**Make sure you set the correct database connection information before running the migrations** [Environment variables](#environment-variables)
+
+    php artisan migrate
+    php artisan serve
+
+## Database seeding
+
+**Populate the database with seed data with relationships which includes users, shops, favorites and dislikes. This can help you to quickly start testing the api or couple a frontend and start using it with ready content.**
+
+Open the DummyDataSeeder and set the property values as per your requirement
+
+    database/seeds/DummyDataSeeder.php
+
+Run the database seeder and you're done
+
+    php artisan db:seed
+
+***Note*** : It's recommended to have a clean database before seeding. You can refresh your migrations at any point to clean the database by running the following command
+
+    php artisan migrate:refresh
+
+## API Specification
+
+More information regarding the project can be found here https://github.com/hiddenfounders/web-coding-challenge 
+
+----------
+
+# Code overview
+
+## Dependencies
+
+- [jwt-auth](https://github.com/tymondesigns/jwt-auth) - For authentication using JSON Web Tokens
+- [laravel-cors](https://github.com/barryvdh/laravel-cors) - For handling Cross-Origin Resource Sharing (CORS)
+
+## Folders
+
+- `app` - Contains all the Eloquent models
+- `app/Http/Controllers/Api` - Contains all the api controllers
+- `app/Http/Middleware` - Contains the JWT auth middleware
+- `app/Exceptions` - Contains the application exceptions handler
+- `app/Http/Requests/Api` - Contains all the api form requests
+- `app/HfShopsApp/Favorite` - Contains the files implementing the favorite feature
+- `app/HfShopsApp/Dislike` - Contains the files implementing the dislike feature
+- `app/HfShopsApp/Distance` - Contains the files handling the distance feature 
+- `app/HfShopsApp/Filters` - Contains the query filters used for filtering api requests
+- `app/HfShopsApp/Paginate` - Contains the pagination class used to paginate the result
+- `app/HfShopsApp/Transformers` - Contains all the data transformers
+- `config` - Contains all the application configuration files
+- `database/factories` - Contains the model factory for all the models
+- `database/migrations` - Contains all the database migrations
+- `database/seeds` - Contains the database seeder
+- `routes` - Contains all the api routes defined in api.php file
+- `tests` - Contains all the application tests
+- `tests/Feature/Api` - Contains all the api tests
+
+## Environment variables
+
+- `.env` - Environment variables can be set in this file
+
+***Note*** : You can quickly set the database information and other variables in this file and have the application fully working.
+
+----------
+ 
+# Authentication
+ 
+This applications uses JSON Web Token (JWT) to handle authentication. The token is passed with each request using the `Authorization` header with `Token` scheme. The JWT authentication middleware handles the validation and authentication of the token. Please check the following sources to learn more about JWT.
+ 
+- https://jwt.io/introduction/
+- https://self-issued.info/docs/draft-ietf-oauth-json-web-token.html
+
+----------
+
+# Cross-Origin Resource Sharing (CORS)
+ 
+This applications has CORS enabled by default on all API endpoints. The default configuration allows requests from `http://localhost:3000` and `http://localhost:4200` to help speed up your frontend testing. The CORS allowed origins can be changed by setting them in the config file. Please check the following sources to learn more about CORS.
+ 
+- https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS
+- https://en.wikipedia.org/wiki/Cross-origin_resource_sharing
+- https://www.w3.org/TR/cors
