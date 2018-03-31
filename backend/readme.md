@@ -1,6 +1,6 @@
 # HF webCodingChallenge API
 
-This is the API of the HF webCodingChallenge project build with [Laravel](https://laravel.com)
+This is the API of the [HF webCodingChallenge](https://github.com/eissasoubhi/challenge-project "HF webCodingChallenge") project build with [Laravel](https://laravel.com)
 
 ----------
 
@@ -71,7 +71,7 @@ Run the database seeder and you're done
 
     php artisan db:seed
 
-***Note*** : It's recommended to have a clean database before seeding. You can refresh your migrations at any point to clean the database by running the following command
+***Note** : It's recommended to have a clean database before seeding. You can refresh your migrations at any point to clean the database by running the following command*
 
     php artisan migrate:refresh
 
@@ -113,7 +113,7 @@ More information regarding the project can be found here https://github.com/hidd
 
 - `.env` - Environment variables can be set in this file
 
-***Note*** : You can quickly set the database information and other variables in this file and have the application fully working.
+***Note** : You can quickly set the database information and other variables in this file and have the application fully working.*
 
 ----------
  
@@ -128,8 +128,21 @@ This applications uses JSON Web Token (JWT) to handle authentication. The token 
 
 # Cross-Origin Resource Sharing (CORS)
  
-This applications has CORS enabled by default on all API endpoints. The default configuration allows requests from `http://localhost:3000` and `http://localhost:4200` to help speed up your frontend testing. The CORS allowed origins can be changed by setting them in the config file. Please check the following sources to learn more about CORS.
+This applications has CORS enabled by default on all API endpoints. The default configuration allows requests from `http://localhost:8080` and `http://localhost:8000` to help speed up your frontend testing. **The CORS allowed origins can be changed by setting them in the `.env` file**. Please check the following sources to learn more about CORS.
  
 - https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS
 - https://en.wikipedia.org/wiki/Cross-origin_resource_sharing
 - https://www.w3.org/TR/cors
+----------
+
+# Features testing
+ 
+Laravel comes with support for [testing with PHPUnit](https://laravel.com/docs/5.4/testing).
+
+Before running the tests **Create the testing database and Set the connection in .env**
+
+To run the tests make sure you are in Laravel root folder then type `vendor\bin\phpunit` and hit Enter.
+
+# User interface
+
+The UI using this API can be found here https://github.com/eissasoubhi/challenge-project/tree/master/frontend
