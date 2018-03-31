@@ -44,7 +44,7 @@ Generate a new JWT authentication secret key
 
 `php artisan jwt:generate`
 
-Run the database migrations (**after creating the database and setting the connection in .env before migrating**)
+Run the database migrations (**after creating the database (without any table) and setting the connection in .env before migrating**)
 
 `php artisan migrate`
 

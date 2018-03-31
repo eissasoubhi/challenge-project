@@ -54,7 +54,7 @@ You can now access the server at http://localhost:8000
     php artisan key:generate
     php artisan jwt:generate 
     
-**Make sure you set the correct database connection information before running the migrations** [Environment variables](#environment-variables)
+**Make sure you create the database (without any table) and set the correct database connection information before running the migrations** [Environment variables](#environment-variables)
 
     php artisan migrate
     php artisan serve
@@ -139,7 +139,7 @@ This applications has CORS enabled by default on all API endpoints. The default 
  
 Laravel comes with support for [testing with PHPUnit](https://laravel.com/docs/5.4/testing).
 
-Before running the tests **Create the testing database and Set the connection in .env**
+Before running the tests **Create the testing database (without any table) and Set the connection in .env**
 
 To run the tests make sure you are in Laravel root folder then type `vendor\bin\phpunit` and hit Enter.
 
