@@ -77,6 +77,8 @@ Run the database seeder and you're done
 
 ## API Specification
 
+This application adheres to the api specifications explained here [Full API Spec](https://github.com/eissasoubhi/challenge-project/blob/master/backend/API-SPEC.md)
+
 More information regarding the project can be found here https://github.com/hiddenfounders/web-coding-challenge 
 
 ----------
