@@ -1,6 +1,6 @@
 # HF webCodingChallenge API Spec
 
-This is the spec of the [HF webCodingChallenge API ](https://github.com/eissasoubhi/challenge-project/backend"HF webCodingChallenge API").
+This is the spec of the [HF webCodingChallenge API](https://github.com/eissasoubhi/challenge-project/backend, "HF webCodingChallenge API").
 
 ### Authentication Header:
 
@@ -38,8 +38,8 @@ This is the spec of the [HF webCodingChallenge API ](https://github.com/eissasou
     "location": {
       "type": "jake",
       "coordinates": {
-        "lat": 666,
-        "long": 666
+        "lat": 666.666666,
+        "long": 999.999999
       }
     }
   }
@@ -64,8 +64,8 @@ This is the spec of the [HF webCodingChallenge API ](https://github.com/eissasou
     "location": {
       "type": "jake",
       "coordinates": {
-        "lat": 666,
-        "long": 666
+        "lat": 666.666666,
+        "long": 999.999999
       }
     }
   }, {
@@ -107,11 +107,11 @@ If a request fails any validations, expect a 422 and errors in the following for
 
 #### Other status codes:
 
-401 for Unauthorized requests, when a request requires authentication but it isn't provided
+**401** for Unauthorized requests, when a request requires authentication but it isn't provided
 
-403 for Forbidden requests, when a request may be valid but the user doesn't have permissions to perform the action
+**403** for Forbidden requests, when a request may be valid but the user doesn't have permissions to perform the action
 
-404 for Not found requests, when a resource can't be found to fulfill the request
+**404** for Not found requests, when a resource can't be found to fulfill the request
 
 
 ## Endpoints:
@@ -170,7 +170,7 @@ Authentication required, returns a [User](#users-for-authentication) that's the 
 
 Authentication required, Returns all shops sorted randomly by default, provide `favorited`, `exceptdisliked`, `exceptfavorited` or `nearby` query parameter to filter results
 
-Query Parameters:
+**Query Parameters:**
 
 Favorited by user:
 
